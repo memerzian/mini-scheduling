@@ -18,16 +18,16 @@ namespace min_scheduling.Controllers
         private SchedulingContext db = new SchedulingContext();
 
         // GET: api/MasterSchedules
-        public IQueryable<MasterSchedule> GetMasterSchedules()
+        public IQueryable<MasterScheduleEntity> GetMasterSchedules()
         {
             return db.MasterSchedules;
         }
 
         // GET: api/MasterSchedules/5
-        [ResponseType(typeof(MasterSchedule))]
+        [ResponseType(typeof(MasterScheduleEntity))]
         public IHttpActionResult GetMasterSchedule(int id)
         {
-            MasterSchedule masterSchedule = db.MasterSchedules.Find(id);
+            MasterScheduleEntity masterSchedule = db.MasterSchedules.Find(id);
             if (masterSchedule == null)
             {
                 return NotFound();
@@ -38,7 +38,7 @@ namespace min_scheduling.Controllers
 
         // PUT: api/MasterSchedules/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutMasterSchedule(int id, MasterSchedule masterSchedule)
+        public IHttpActionResult PutMasterSchedule(int id, MasterScheduleEntity masterSchedule)
         {
             if (!ModelState.IsValid)
             {
@@ -72,8 +72,8 @@ namespace min_scheduling.Controllers
         }
 
         // POST: api/MasterSchedules
-        [ResponseType(typeof(MasterSchedule))]
-        public IHttpActionResult PostMasterSchedule(MasterSchedule masterSchedule)
+        [ResponseType(typeof(MasterScheduleEntity))]
+        public IHttpActionResult PostMasterSchedule(MasterScheduleEntity masterSchedule)
         {
             if (!ModelState.IsValid)
             {
@@ -87,10 +87,10 @@ namespace min_scheduling.Controllers
         }
 
         // DELETE: api/MasterSchedules/5
-        [ResponseType(typeof(MasterSchedule))]
+        [ResponseType(typeof(MasterScheduleEntity))]
         public IHttpActionResult DeleteMasterSchedule(int id)
         {
-            MasterSchedule masterSchedule = db.MasterSchedules.Find(id);
+            MasterScheduleEntity masterSchedule = db.MasterSchedules.Find(id);
             if (masterSchedule == null)
             {
                 return NotFound();

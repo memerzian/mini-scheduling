@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Progress View";
+}
+
+<div ng-app="SchedulingApp">
+    <div class="row" ng-controller="ProgressController">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    Master Schedules
+                </div>
+                <div class="card-body">
+                    See if the css is really working here {{answer()}}
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    Progress
+                </div>
+                <div class="card-body">
+                    See if the css is really working here
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/angular.js")
+    @Scripts.Render("~/Views/Progress/progress-controller.js")
+}

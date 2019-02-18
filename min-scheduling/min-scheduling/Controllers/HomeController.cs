@@ -8,19 +8,26 @@ namespace min_scheduling.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult RunSummary()
         {
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult ProgressView()
         {
             ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult PartAllocationStatus()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        public ActionResult BOMViewer()
         {
             ViewBag.Message = "Your contact page.";
 
