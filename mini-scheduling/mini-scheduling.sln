@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "min-scheduling", "min-scheduling\min-scheduling.csproj", "{4BBF7453-693C-4374-829B-76943AF1FB15}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mini-scheduling", "mini-scheduling\mini-scheduling.csproj", "{4BBF7453-693C-4374-829B-76943AF1FB15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "min-scheduling.Tests", "min-scheduling.Tests\min-scheduling.Tests.csproj", "{C3BA53D5-DC58-4F48-AB7D-4A8D2CCD9129}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mini-scheduling.Tests", "mini-scheduling.Tests\mini-scheduling.Tests.csproj", "{C3BA53D5-DC58-4F48-AB7D-4A8D2CCD9129}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

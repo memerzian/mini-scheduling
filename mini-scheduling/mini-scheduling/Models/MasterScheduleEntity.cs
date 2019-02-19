@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace min_scheduling.Models
+namespace mini_scheduling.Models
 {
     public class MasterScheduleEntity
     {

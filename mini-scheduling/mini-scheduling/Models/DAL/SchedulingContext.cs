@@ -1,9 +1,9 @@
-﻿using min_scheduling.Models;
+﻿using mini_scheduling.Models;
 using MySql.Data.EntityFramework;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
-namespace min_scheduling.DAL
+namespace mini_scheduling.DAL
 {
     [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class SchedulingContext: DbContext

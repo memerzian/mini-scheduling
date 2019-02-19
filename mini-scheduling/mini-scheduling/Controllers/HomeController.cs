@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace min_scheduling.Controllers
+namespace mini_scheduling.Controllers
 {
     public class HomeController : Controller
     {

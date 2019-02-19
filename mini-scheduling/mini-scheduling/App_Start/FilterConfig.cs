@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace min_scheduling
+namespace mini_scheduling
 {
     public class FilterConfig
     {

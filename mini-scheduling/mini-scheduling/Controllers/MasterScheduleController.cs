@@ -8,10 +8,10 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using min_scheduling.DAL;
-using min_scheduling.Models;
+using mini_scheduling.DAL;
+using mini_scheduling.Models;
 
-namespace min_scheduling.Controllers
+namespace mini_scheduling.Controllers
 {
     public class MasterScheduleController : ApiController
     {

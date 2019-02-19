@@ -250,9 +250,9 @@
     <None Include="Scripts\umd\popper.min.js.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\min-scheduling\min-scheduling.csproj">
+    <ProjectReference Include="..\mini-scheduling\mini-scheduling.csproj">
       <Project>{4BBF7453-693C-4374-829B-76943AF1FB15}</Project>
-      <Name>min-scheduling</Name>
+      <Name>mini-scheduling</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
