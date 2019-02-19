@@ -10,7 +10,31 @@
                     Master Schedules
                 </div>
                 <div class="card-body">
-                    See if the css is really working here {{answer()}}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    Name
+                                </th>
+                                <th scope="col">
+                                    Date
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="ms in masterSchedules">
+                                <td>
+                                    <input class="form-control" ng-model="ms.Name">
+                                </td>
+                                <td>
+                                    <input class="form-control" ng-value="ms.Date | date:'shortDate'">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <button class="btn btn-success float-right" ng-click="addIngredient()"> Save</button>
                 </div>
             </div>
         </div>
