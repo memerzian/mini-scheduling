@@ -2,11 +2,7 @@
     .controller('ProgressController', function ($scope, $http) {
         $scope.masterSchedules;
 
-        $http.get("/api/MasterSchedule").then(function (response) {
+        $http.get("/api/MasterSchedules").then(function (response) {
             $scope.masterSchedules = response.data;
         });
-
-        $scope.answer = function () {
-            return $scope.correctAnswer ? 'correct' : 'incorrect';
-        };
     });

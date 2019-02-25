@@ -12,6 +12,7 @@ namespace mini_scheduling.DAL
         {
         }
         public DbSet<MasterScheduleEntity> MasterSchedules { get; set; }
+        public DbSet<RunEntity> Runs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -19,6 +20,10 @@ namespace mini_scheduling.DAL
 
             modelBuilder.Entity<MasterScheduleEntity>()
                 .ToTable("MasterSchedule");
+
+            modelBuilder.Entity<RunEntity>()
+                .ToTable("Run")
+                .HasKey(r => r.RunID);
         }
     }
 }

@@ -239,12 +239,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SummaryController.cs" />
     <Compile Include="Controllers\MasterScheduleController.cs" />
     <Compile Include="Models\DAL\SchedulingContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Enums\Status.cs" />
+    <Compile Include="Models\RunEntity.cs" />
     <Compile Include="Models\MasterScheduleEntity.cs" />
+    <Compile Include="MRP Engine\MRPDataService.cs" />
+    <Compile Include="MRP Engine\MRPEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1077,7 +1082,7 @@
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Views\Progress\progress-controller.js" />
-    <Content Include="Views\Summary\RunSummary.html" />
+    <Content Include="Views\Summary\summary-controller.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -26,7 +26,7 @@
         <div class="pb-2 mt-4 mb-2 border-bottom">
             <h2>@ViewBag.Title</h2>
         </div>
-        <div class="mt-3">
+        <div class="mt-3" ng-app="SchedulingApp">
             @RenderBody()
         </div>
     </div>
@@ -38,6 +38,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/angular.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>
