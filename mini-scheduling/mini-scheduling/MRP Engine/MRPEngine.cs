@@ -10,9 +10,11 @@ namespace min_scheduling.MRP_Engine
     {
         public void RunMRP()
         {
-            // Start a new run
+            // Start a new run and add run to the database
             var dataService = new MRPDataService();
             dataService.RecordRun(Status.InProgress);
+
+
         }
     }
 }

@@ -245,10 +245,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\PartEntity.cs" />
+    <Compile Include="Models\Entities\ScheduledObjectEntity.cs" />
+    <Compile Include="Models\Enums\ObjectType.cs" />
     <Compile Include="Models\Enums\Status.cs" />
-    <Compile Include="Models\RunEntity.cs" />
-    <Compile Include="Models\MasterScheduleEntity.cs" />
+    <Compile Include="Models\Entities\RunEntity.cs" />
+    <Compile Include="Models\Entities\MasterScheduleEntity.cs" />
     <Compile Include="MRP Engine\MRPDataService.cs" />
+    <Compile Include="MRP Engine\DataLoader.cs" />
     <Compile Include="MRP Engine\MRPEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1112,7 +1116,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\app\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

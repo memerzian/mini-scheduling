@@ -12,7 +12,7 @@ namespace min_scheduling.MRP_Engine
     {
         public SchedulingContext db = new SchedulingContext();
 
-        public void RecordRun(Status status)
+        public int RecordRun(Status status)
         {
             var run = new RunEntity
             {
@@ -22,6 +22,8 @@ namespace min_scheduling.MRP_Engine
 
             db.Runs.Add(run);
             db.SaveChanges();
+
+            return run.RunID;
         }
     }
 }
