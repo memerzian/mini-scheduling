@@ -8,5 +8,7 @@ namespace mini_scheduling.Models
         public int BillOfMaterialsID { get; set; }
         public int Quantity { get; set; }
         public int RequiredPartID { get; set; }
+
+        public PartEntity Part { get; set; }
     }
 }

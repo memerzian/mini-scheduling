@@ -49,7 +49,8 @@ namespace mini_scheduling.DAL
 
             modelBuilder.Entity<BillOfMaterialsRequirementEntity>()
                 .ToTable("BillOfMaterialsRequirement")
-                .HasKey(b => b.BillOfMaterialsID);
+                .HasKey(b => b.BillOfMaterialsRequirementID)
+                .HasRequired(b => b.Part).WithMany().HasForeignKey(p => p.RequiredPartID);
 
             modelBuilder.Entity<WorkOrderRequirementEntity>()
                 .ToTable("WorkOrderRequirement")

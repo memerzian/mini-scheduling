@@ -239,13 +239,20 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\BOMViewController.cs" />
     <Compile Include="Controllers\SummaryController.cs" />
     <Compile Include="Controllers\MasterScheduleController.cs" />
     <Compile Include="Models\DAL\SchedulingContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DTOs\BOMObject.cs" />
+    <Compile Include="Models\Entities\WorkOrderRequirementEntity.cs" />
     <Compile Include="Models\Entities\PartEntity.cs" />
+    <Compile Include="Models\Entities\BillOfMaterialsEntity.cs" />
+    <Compile Include="Models\Entities\AllocationEntity.cs" />
+    <Compile Include="Models\Entities\BillOfMaterialsRequirementEntity.cs" />
+    <Compile Include="Models\Entities\SupplyEntity.cs" />
     <Compile Include="Models\Entities\ScheduledObjectEntity.cs" />
     <Compile Include="Models\Enums\ObjectType.cs" />
     <Compile Include="Models\Enums\Status.cs" />
