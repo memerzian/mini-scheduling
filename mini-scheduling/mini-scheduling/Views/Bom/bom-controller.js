@@ -12,25 +12,22 @@
         });
 
         // ************** Generate the tree diagram	 *****************
-        var margin = { top: 20, right: 120, bottom: 20, left: 120 },
-            width = 960 - margin.right - margin.left,
-            height = 500 - margin.top - margin.bottom;
-
         var i = 0;
 
+        var width = 600, height = 600;
+
         var tree = d3.layout.tree()
-            .size([height, width]);
+            .size([width, height]);
 
         var diagonal = d3.svg.diagonal();
 
-        var svg = d3.select("body").append("svg")
-            .attr("width", width + margin.right + margin.left)
-            .attr("height", height + margin.top + margin.bottom)
+        var svg = d3.select("div#container").append("svg")
+            .attr("viewBox", " 0 -50 " + width + " " + height)
+            .attr("preserveAspectRatio", "xMidYMid meet")
             .call(d3.behavior.zoom().on("zoom", function () {
                 svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
             }))
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .append("g");
 
         function update(source) {
 
@@ -44,6 +41,30 @@
             // Declare the nodes…
             var node = svg.selectAll("g.node")
                 .data(nodes, function (d) { return d.id || (d.id = ++i); });
+
+            // Declare the links…
+            var link = svg.selectAll("path.link")
+                .data(links, function (d) { return d.target.id; });
+
+            // Enter the links.
+            var linkEnter = link.enter().append("g");
+
+            linkEnter.append("path")
+                .attr("d", diagonal)
+                .attr("stroke", "black")
+                .attr("stroke-width", 4)
+                .attr("fill", "none");
+
+            // Links have a source and a target node. So here, want to see the quantity of the target
+            linkEnter.append("text")
+                .text(function (d) { return d.target.Quantity; })
+                .attr("transform", function (d) {
+                    return "translate(" +
+                        ((d.source.x + d.target.x) / 2) + "," +
+                        ((d.source.y + d.target.y) / 2) + ")";
+                })
+                .attr("dx", 20)
+                .attr("text-anchor", "middle");
 
             // Enter the nodes.
             var nodeEnter = node.enter().append("g")
@@ -64,16 +85,5 @@
                 .attr("text-anchor", "end")
                 .text(function (d) { return d.Partnumber; })
                 .style("fill-opacity", 1);
-
-            // Declare the links…
-            var link = svg.selectAll("path.link")
-                .data(links, function (d) { return d.target.id; });
-
-            // Enter the links.
-            link.enter().insert("path", "g")
-                .attr("d", diagonal)
-                .attr("stroke", "black")
-                .attr("stroke-width", 4)
-                .attr("fill", "none");
         }
     });
