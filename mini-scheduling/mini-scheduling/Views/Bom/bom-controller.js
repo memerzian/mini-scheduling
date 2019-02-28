@@ -1,15 +1,19 @@
 ﻿angular.module('SchedulingApp', [])
     .controller('BomController', function ($scope, $http) {
-        $scope.data;
+        $scope.parts;
 
-        $http.get("/api/GetBom/2").then(function (response) {
-            $scope.data = response.data;
-
-            root = $scope.data;
-
-            update(root);
-
+        $http.get("/api/GetAllParts").then(function (response) {
+            $scope.parts = response.data;
         });
+
+        $scope.loadBom = function(partID) {
+            $http.get("/api/GetBom/" + partID).then(function (response) {
+                root = response.data;
+
+                update(root);
+            });
+        };
+
 
         // ************** Generate the tree diagram	 *****************
         var i = 0;
@@ -30,6 +34,8 @@
             .append("g");
 
         function update(source) {
+            // Clears the dom for loading new boms
+            svg.selectAll("*").remove();
 
             // Compute the new tree layout.
             var nodes = tree.nodes(root).reverse(),
@@ -63,7 +69,7 @@
                         ((d.source.x + d.target.x) / 2) + "," +
                         ((d.source.y + d.target.y) / 2) + ")";
                 })
-                .attr("dx", 20)
+                .attr("dx", "2em")
                 .attr("text-anchor", "middle");
 
             // Enter the nodes.

@@ -10,6 +10,14 @@ namespace mini_scheduling.Controllers
     {
         private SchedulingContext db = new SchedulingContext();
 
+        [Route("api/GetAllParts")]
+        public IHttpActionResult GetAllParts()
+        {
+            var parts = db.Parts;
+
+            return Ok(parts);
+        }
+
         [Route ("api/GetBom/{partid}")]
         public IHttpActionResult GetBOM(int partID)
         {
