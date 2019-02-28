@@ -21,7 +21,7 @@ namespace mini_scheduling.Controllers
                 Partnumber = part.Name,
                 LeadTime = part.Leadtime,
                 Quantity = 1,
-                Children = new List<BOMObject>()
+                children = new List<BOMObject>()
             };
 
             AddChildren(part.PartID, bom);
@@ -45,7 +45,7 @@ namespace mini_scheduling.Controllers
                     LeadTime = x.Part.Leadtime
                 }).ToList();
 
-                bom.Children.AddRange(children);
+                bom.children.AddRange(children);
 
                 foreach (var child in children)
                 {
