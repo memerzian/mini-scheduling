@@ -48,11 +48,11 @@
             var node = svg.selectAll("g.node")
                 .data(nodes, function (d) { return d.id || (d.id = ++i); });
 
-            // Declare the links…
+            // Declare the links
             var link = svg.selectAll("path.link")
                 .data(links, function (d) { return d.target.id; });
 
-            // Enter the links.
+            // Enter the links
             var linkEnter = link.enter().append("g");
 
             linkEnter.append("path")
@@ -72,7 +72,7 @@
                 .attr("dx", "2em")
                 .attr("text-anchor", "middle");
 
-            // Enter the nodes.
+            // Enter the nodes
             var nodeEnter = node.enter().append("g")
                 .attr("class", "node")
                 .attr("transform", function (d) {

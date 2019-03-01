@@ -103,7 +103,7 @@ namespace mini_scheduling.Controllers
 
         private bool MasterScheduleExists(int id)
         {
-            return db.MasterSchedules.Count(e => e.ID == id) > 0;
+            return db.MasterSchedules.Count(e => e.MasterScheduleID == id) > 0;
         }
     }
 }

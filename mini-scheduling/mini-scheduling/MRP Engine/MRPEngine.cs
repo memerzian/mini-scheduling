@@ -1,4 +1,5 @@
 ﻿using min_scheduling.Models.Enums;
+using mini_scheduling.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,20 @@ namespace min_scheduling.MRP_Engine
             var dataService = new MRPDataService();
             dataService.RecordRun(Status.InProgress);
 
+            // Load in all of the relevant data
+            var dataLoader = new DataLoader();
+            DataLoad data = dataLoader.LoadData();
 
+            // Determine the order that the parts can be processed in
+            var dependencyAnalyzer = new DependencyAnalyzer();
+            List<int> partIDOrder = dependencyAnalyzer.AnalyzeDependencies(data.BomRequirements, data.WorkOrderRequirements, data.PartDictionary);
+
+            // Allocate and plan based on demand and supply
+
+            // Commit to the database
+
+
+            Console.WriteLine();
         }
     }
 }

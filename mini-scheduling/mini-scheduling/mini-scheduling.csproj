@@ -247,6 +247,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DTOs\BOMObject.cs" />
+    <Compile Include="Models\DTOs\MRPEngine\BomRelationship.cs" />
+    <Compile Include="Models\DTOs\MRPEngine\DataLoad.cs" />
     <Compile Include="Models\Entities\WorkOrderRequirementEntity.cs" />
     <Compile Include="Models\Entities\PartEntity.cs" />
     <Compile Include="Models\Entities\BillOfMaterialsEntity.cs" />
@@ -258,6 +260,7 @@
     <Compile Include="Models\Enums\Status.cs" />
     <Compile Include="Models\Entities\RunEntity.cs" />
     <Compile Include="Models\Entities\MasterScheduleEntity.cs" />
+    <Compile Include="MRP Engine\DependencyAnalyzer.cs" />
     <Compile Include="MRP Engine\MRPDataService.cs" />
     <Compile Include="MRP Engine\DataLoader.cs" />
     <Compile Include="MRP Engine\MRPEngine.cs" />

@@ -25,7 +25,8 @@ namespace mini_scheduling.DAL
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Entity<MasterScheduleEntity>()
-                .ToTable("MasterSchedule");
+                .ToTable("MasterSchedule")
+                .HasKey(m => m.MasterScheduleID);
 
             modelBuilder.Entity<RunEntity>()
                 .ToTable("Run")
@@ -50,11 +51,15 @@ namespace mini_scheduling.DAL
             modelBuilder.Entity<BillOfMaterialsRequirementEntity>()
                 .ToTable("BillOfMaterialsRequirement")
                 .HasKey(b => b.BillOfMaterialsRequirementID)
-                .HasRequired(b => b.Part).WithMany().HasForeignKey(p => p.RequiredPartID);
+                .HasRequired(b => b.Part).WithMany().HasForeignKey(b => b.RequiredPartID);
+
+            modelBuilder.Entity<BillOfMaterialsRequirementEntity>()
+                .HasRequired(b => b.Bom).WithMany().HasForeignKey(b => b.BillOfMaterialsID);
 
             modelBuilder.Entity<WorkOrderRequirementEntity>()
                 .ToTable("WorkOrderRequirement")
-                .HasKey(w => w.WorkOrderRequirementID);
+                .HasKey(w => w.WorkOrderRequirementID)
+                .HasRequired(w => w.Supply).WithMany().HasForeignKey(w => w.SupplyID);
         }
     }
 }
