@@ -2,8 +2,6 @@
 using mini_scheduling.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace min_scheduling.MRP_Engine
 {
@@ -24,8 +22,12 @@ namespace min_scheduling.MRP_Engine
             List<int> partIDOrder = dependencyAnalyzer.AnalyzeDependencies(data.BomRequirements, data.WorkOrderRequirements, data.PartDictionary);
 
             // Allocate and plan based on demand and supply
+            var planner = new Planner();
+            MRPResults results = planner.Plan(data, partIDOrder);
 
             // Commit to the database
+
+            // Mark run as completed
 
 
             Console.WriteLine();
