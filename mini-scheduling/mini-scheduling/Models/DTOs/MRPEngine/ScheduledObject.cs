@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace mini_scheduling.Models
 {
@@ -10,5 +9,11 @@ namespace mini_scheduling.Models
         public int TypeID { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? DueDate { get; set; }
+        public int Hashcode { get; set; }
+
+        public ScheduledObject()
+        {
+            Hashcode = this.GetHashCode();
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace min_scheduling.MRP_Engine
 {
     public class Planner
     {
-        public MRPResults Plan(DataLoad dataLoad, List<int> partIDOrder)
+        public MRPResult Plan(DataLoad dataLoad, List<int> partIDOrder)
         {
             var scheduledObjects = new List<ScheduledObject>();
             var suppliesDictionary = new Dictionary<int, List<Supply>>();
@@ -113,6 +113,9 @@ namespace min_scheduling.MRP_Engine
                             ? availableSupply.ScheduledObject.DueDate :
                             partDemand.ScheduledObject.StartDate;
 
+                        availableSupply.ScheduledObject.StartDate = ((DateTime)availableSupply.ScheduledObject.DueDate)
+                            .AddDays(dataLoad.PartDictionary[availableSupply.PartID].Leadtime * -1);
+
                         // Create demands for children of supply
                         if (availableSupply.ScheduledObject.TypeID == (int)ObjectType.PlannedOrder)
                         {
@@ -140,7 +143,7 @@ namespace min_scheduling.MRP_Engine
                 }
             }
 
-            var mrpResults = new MRPResults()
+            var mrpResults = new MRPResult()
             {
                 ScheduledObjects = scheduledObjects,
                 Allocations = allocations

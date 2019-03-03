@@ -11,7 +11,7 @@ namespace min_scheduling.MRP_Engine
         {
             // Start a new run and add run to the database
             var dataService = new MRPDataService();
-            dataService.RecordRun(Status.InProgress);
+            int runID = dataService.RecordRun(Status.InProgress);
 
             // Load in all of the relevant data
             var dataLoader = new DataLoader();
@@ -23,9 +23,11 @@ namespace min_scheduling.MRP_Engine
 
             // Allocate and plan based on demand and supply
             var planner = new Planner();
-            MRPResults results = planner.Plan(data, partIDOrder);
+            MRPResult results = planner.Plan(data, partIDOrder);
 
             // Commit to the database
+            var dataCommitter = new DataCommitter();
+            dataCommitter.CommitData(runID, results);
 
             // Mark run as completed
 
