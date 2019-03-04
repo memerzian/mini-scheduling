@@ -19,6 +19,7 @@ namespace mini_scheduling.DAL
         public DbSet<BillOfMaterialsEntity> BillOfMaterials { get; set; }
         public DbSet<BillOfMaterialsRequirementEntity> BillOfMaterialsRequirements { get; set; }
         public DbSet<WorkOrderRequirementEntity> WorkOrderRequirements { get; set; }
+        public DbSet<AllocationEntity> Allocations { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -60,6 +61,10 @@ namespace mini_scheduling.DAL
                 .ToTable("WorkOrderRequirement")
                 .HasKey(w => w.WorkOrderRequirementID)
                 .HasRequired(w => w.Supply).WithMany().HasForeignKey(w => w.SupplyID);
+
+            modelBuilder.Entity<AllocationEntity>()
+                .ToTable("Allocation")
+                .HasKey(a => a.AllocationID);
         }
     }
 }

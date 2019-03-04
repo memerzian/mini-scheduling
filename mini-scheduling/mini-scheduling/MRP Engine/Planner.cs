@@ -20,7 +20,7 @@ namespace min_scheduling.MRP_Engine
             {
                 var scheduledObject = new ScheduledObject
                 {
-                    ObjectID = supply.SupplyID,
+                    SupplyID = supply.SupplyID,
                     TypeID = supply.TypeID
                 };
 
@@ -49,8 +49,9 @@ namespace min_scheduling.MRP_Engine
                 {
                     DueDate = masterSchedule.Date,
                     StartDate = masterSchedule.Date.AddDays(dataLoad.PartDictionary[masterSchedule.PartID].Leadtime * -1),
-                    ObjectID = masterSchedule.MasterScheduleID,
-                    TypeID = (int)ObjectType.MasterSchedule
+                    MasterScheduleID = masterSchedule.MasterScheduleID,
+                    TypeID = (int)ObjectType.MasterSchedule,
+                    PartID = masterSchedule.PartID
                 };
 
                 scheduledObjects.Add(scheduledObject);
@@ -66,7 +67,6 @@ namespace min_scheduling.MRP_Engine
                 if (!demandsDictionary.ContainsKey(masterSchedule.PartID))
                 {
                     demandsDictionary.Add(masterSchedule.PartID, new List<Demand>() { });
-
                 }
 
                 demandsDictionary[masterSchedule.PartID].Add(demandObject);
@@ -158,8 +158,9 @@ namespace min_scheduling.MRP_Engine
             {
                 DueDate = DateTime.Today,
                 StartDate = DateTime.Today,
-                ObjectID = null,
-                TypeID = (int)ObjectType.PlannedOrder
+                SupplyID = null,
+                TypeID = (int)ObjectType.PlannedOrder,
+                PartID = partID
             };
 
             scheduledObjects.Add(scheduledObject);

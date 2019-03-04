@@ -2,8 +2,6 @@
 using mini_scheduling.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 
 namespace min_scheduling.MRP_Engine
 {
@@ -22,14 +20,32 @@ namespace min_scheduling.MRP_Engine
                     {
                         DueDate = (DateTime)so.DueDate,
                         StartDate = (DateTime)so.StartDate,
-                        RunID = runID
+                        RunID = runID,
+                        PartID = so.PartID,
+                        MasterScheduleID = so.MasterScheduleID,
+                        SupplyID = so.SupplyID
                     };
 
                     db.ScheduledObjects.Add(scheduledObjectEntity);
 
+                    // Put SaveChanges here because I end up using the ID in the hashcode mapping
                     db.SaveChanges();
 
                     hashcodeMap.Add(so.Hashcode, scheduledObjectEntity.ScheduledObjectID);
+                }
+
+                foreach (var alloc in results.Allocations)
+                {
+                    var allocationEntity = new AllocationEntity
+                    {
+                        ParentScheduledObjectID = hashcodeMap[alloc.Demand.ScheduledObject.Hashcode],
+                        ChildScheduledObjectID = hashcodeMap[alloc.Supply.ScheduledObject.Hashcode],
+                        Quantity = alloc.Quantity,
+                        RunID = runID
+                    };
+
+                    db.Allocations.Add(allocationEntity);
+                    db.SaveChanges();
                 }
 
                 return;

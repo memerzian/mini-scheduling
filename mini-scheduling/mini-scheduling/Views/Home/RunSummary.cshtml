@@ -20,7 +20,34 @@
                     MRP Runs
                 </div>
                 <div class="card-body">
-                    See if the css is really working here
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    RunID
+                                </th>
+                                <th scope="col">
+                                    Date
+                                </th>
+                                <th scope="col">
+                                    Status
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="run in runs">
+                                <td>
+                                    {{run.RunID}}
+                                </td>
+                                <td>
+                                    {{run.Date | date:'shortDate'}}
+                                </td>
+                                <td>
+                                    {{run.StatusID}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

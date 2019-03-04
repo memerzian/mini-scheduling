@@ -25,5 +25,13 @@ namespace min_scheduling.MRP_Engine
 
             return run.RunID;
         }
+
+        public void UpdateRun(int runID, Status status)
+        {
+            RunEntity run = db.Runs.Find(runID);
+
+            run.StatusID = (int)status;
+            db.SaveChanges();
+        }
     }
 }
