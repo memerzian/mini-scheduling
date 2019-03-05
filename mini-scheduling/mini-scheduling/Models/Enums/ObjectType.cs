@@ -16,3 +16,4 @@ namespace min_scheduling.Models.Enums
         MasterSchedule = 5
     }
 }
+

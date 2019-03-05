@@ -247,6 +247,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DTOs\RunDetailItem.cs" />
+    <Compile Include="Models\DTOs\RunDetail.cs" />
     <Compile Include="Models\DTOs\BOMObject.cs" />
     <Compile Include="Models\DTOs\MRPEngine\MRPResult.cs" />
     <Compile Include="Models\DTOs\MRPEngine\BomRelationship.cs" />
@@ -255,6 +257,7 @@
     <Compile Include="Models\DTOs\MRPEngine\Demand.cs" />
     <Compile Include="Models\DTOs\MRPEngine\ScheduledObject.cs" />
     <Compile Include="Models\DTOs\MRPEngine\DataLoad.cs" />
+    <Compile Include="Models\Entities\ObjectTypeEntity.cs" />
     <Compile Include="Models\Entities\WorkOrderRequirementEntity.cs" />
     <Compile Include="Models\Entities\PartEntity.cs" />
     <Compile Include="Models\Entities\BillOfMaterialsEntity.cs" />
@@ -314,6 +317,8 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\core.js" />
+    <Content Include="Scripts\core.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -1093,6 +1098,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\lodash.js" />
+    <Content Include="Scripts\lodash.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />

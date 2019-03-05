@@ -16,7 +16,7 @@ namespace min_scheduling.MRP_Engine
         {
             var run = new RunEntity
             {
-                Date = DateTime.Now,
+                StartDate = DateTime.Now,
                 StatusID = (int)status
             };
 
@@ -31,6 +31,7 @@ namespace min_scheduling.MRP_Engine
             RunEntity run = db.Runs.Find(runID);
 
             run.StatusID = (int)status;
+            run.EndDate = DateTime.Now;
             db.SaveChanges();
         }
     }

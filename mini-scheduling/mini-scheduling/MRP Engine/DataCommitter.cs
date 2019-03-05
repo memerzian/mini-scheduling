@@ -20,6 +20,7 @@ namespace min_scheduling.MRP_Engine
                     {
                         DueDate = (DateTime)so.DueDate,
                         StartDate = (DateTime)so.StartDate,
+                        TypeID = so.TypeID,
                         RunID = runID,
                         PartID = so.PartID,
                         MasterScheduleID = so.MasterScheduleID,

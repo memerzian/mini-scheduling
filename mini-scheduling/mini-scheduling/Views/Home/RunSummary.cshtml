@@ -27,10 +27,16 @@
                                     RunID
                                 </th>
                                 <th scope="col">
-                                    Date
+                                    Start Date
+                                </th>
+                                <th scope="col">
+                                    End Date
                                 </th>
                                 <th scope="col">
                                     Status
+                                </th>
+                                <th>
+
                                 </th>
                             </tr>
                         </thead>
@@ -40,10 +46,16 @@
                                     {{run.RunID}}
                                 </td>
                                 <td>
-                                    {{run.Date | date:'shortDate'}}
+                                    {{run.StartDate | date:'short'}}
+                                </td>
+                                <td>
+                                    {{run.EndDate | date:'short'}}
                                 </td>
                                 <td>
                                     {{run.StatusID}}
+                                </td>
+                                <td>
+                                    <i class="fa fa-info-circle text-secondary" ng-click="loadDetails(run.RunID)"></i>
                                 </td>
                             </tr>
                         </tbody>
@@ -57,7 +69,32 @@
                     Details
                 </div>
                 <div class="card-body">
-                    Put details here
+                    <div>
+                        Elapsed Time: {{detail.ElapsedMinutes}} minutes
+                    </div>
+                    <br />
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    Scheduled Object Type
+                                </th>
+                                <th scope="col">
+                                    Count
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in detail.Items">
+                                <td>
+                                    {{ item.Type }}
+                                </td>
+                                <td>
+                                    {{ item.Count }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

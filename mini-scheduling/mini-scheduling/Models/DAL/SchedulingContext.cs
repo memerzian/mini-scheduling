@@ -39,7 +39,8 @@ namespace mini_scheduling.DAL
 
             modelBuilder.Entity<ScheduledObjectEntity>()
                 .ToTable("ScheduledObject")
-                .HasKey(s => s.ScheduledObjectID);
+                .HasKey(s => s.ScheduledObjectID)
+                .HasRequired(s => s.Type).WithMany().HasForeignKey(s => s.TypeID);
 
             modelBuilder.Entity<SupplyEntity>()
                 .ToTable("Supply")
@@ -65,6 +66,10 @@ namespace mini_scheduling.DAL
             modelBuilder.Entity<AllocationEntity>()
                 .ToTable("Allocation")
                 .HasKey(a => a.AllocationID);
+
+            modelBuilder.Entity<ObjectTypeEntity>()
+                .ToTable("ObjectType")
+                .HasKey(o => o.TypeID);
         }
     }
 }

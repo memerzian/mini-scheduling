@@ -29,6 +29,27 @@ namespace mini_scheduling.Controllers
             return Ok(masterSchedule);
         }
 
+        [Route("api/SaveMasterSchedules")]
+        public IHttpActionResult PutMasterSchedules(MasterScheduleEntity[] masterSchedules)
+        {
+            foreach(MasterScheduleEntity masterSchedule in masterSchedules)
+            {
+                if (masterSchedule.MasterScheduleID > 0)
+                {
+                    var msEntity = db.MasterSchedules.Find(masterSchedule.MasterScheduleID);
+                    msEntity.Date = masterSchedule.Date;
+                    msEntity.Name = masterSchedule.Name;
+                }
+                else
+                {
+                    db.MasterSchedules.Add(masterSchedule);
+                }
+            }
+
+            db.SaveChanges();
+            return Ok();
+        }
+
         //[ResponseType(typeof(void))]
         //public IHttpActionResult PutMasterSchedule(int id, MasterScheduleEntity masterSchedule)
         //{
