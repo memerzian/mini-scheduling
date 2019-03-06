@@ -240,6 +240,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\BOMViewController.cs" />
+    <Compile Include="Controllers\AllocationController.cs" />
     <Compile Include="Controllers\SummaryController.cs" />
     <Compile Include="Controllers\MasterScheduleController.cs" />
     <Compile Include="Models\Constants\SortOrder.cs" />
@@ -247,6 +248,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DTOs\PartAllocationDetails.cs" />
+    <Compile Include="Models\DTOs\PartAllocationStatus.cs" />
     <Compile Include="Models\DTOs\RunDetailItem.cs" />
     <Compile Include="Models\DTOs\RunDetail.cs" />
     <Compile Include="Models\DTOs\BOMObject.cs" />
@@ -1110,6 +1113,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Views\Allocation\allocation-controller.js" />
     <Content Include="Views\Bom\bom-controller.js" />
     <Content Include="Views\Progress\progress-controller.js" />
     <Content Include="Views\Summary\summary-controller.js" />

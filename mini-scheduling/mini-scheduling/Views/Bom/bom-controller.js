@@ -88,8 +88,16 @@
             nodeEnter.append("text")
                 .attr("x", 35)
                 .attr("dy", ".35em")
-                .attr("text-anchor", "end")
+                .attr("text-anchor", "start")
                 .text(function (d) { return d.Partnumber; })
+                .style("fill-opacity", 1)
+                .style("font-weight", "bold");
+
+            nodeEnter.append("text")
+                .attr("x", 35)
+                .attr("dy", "1.5em")
+                .attr("text-anchor", "start")
+                .text(function (d) { return "LT: " + d.LeadTime; })
                 .style("fill-opacity", 1);
         }
     });

@@ -24,7 +24,9 @@ namespace min_scheduling.MRP_Engine
                         RunID = runID,
                         PartID = so.PartID,
                         MasterScheduleID = so.MasterScheduleID,
-                        SupplyID = so.SupplyID
+                        SupplyID = so.SupplyID,
+                        Sequence = so.Sequence,
+                        Quantity = so.Quantity
                     };
 
                     db.ScheduledObjects.Add(scheduledObjectEntity);

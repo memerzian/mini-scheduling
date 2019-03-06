@@ -11,5 +11,8 @@ namespace mini_scheduling.Models
         public int BillOfMaterialsRequirementID { get; set; }
         public int WorkOrderRequirementID { get; set; }
         public int Quantity { get; set; }
+
+        public ScheduledObjectEntity ChildScheduledObject { get; set; }
+        public ScheduledObjectEntity ParentScheduledObject { get; set; }
     }
 }

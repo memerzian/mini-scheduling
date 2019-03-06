@@ -8,7 +8,6 @@
         $http.get("/api/GetAllParts").then(function (response) {
             $scope.parts = response.data;
             $scope.partDictionary = _.keyBy($scope.parts, o => o.PartID);
-            debugger;
         });
 
         $http.get("/api/MasterSchedules").then(function (response) {
@@ -29,7 +28,6 @@
         };
 
         $scope.saveMasterSchedules = function (masterSchedules) {
-            debugger;
             $http.put("/api/SaveMasterSchedules", JSON.stringify(masterSchedules));
         }
     });

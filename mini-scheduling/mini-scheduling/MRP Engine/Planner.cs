@@ -21,7 +21,9 @@ namespace min_scheduling.MRP_Engine
                 var scheduledObject = new ScheduledObject
                 {
                     SupplyID = supply.SupplyID,
-                    TypeID = supply.TypeID
+                    TypeID = supply.TypeID,
+                    PartID = supply.PartID,
+                    Quantity = supply.Quantity
                 };
 
                 scheduledObjects.Add(scheduledObject);
@@ -51,7 +53,8 @@ namespace min_scheduling.MRP_Engine
                     StartDate = masterSchedule.Date.AddDays(dataLoad.PartDictionary[masterSchedule.PartID].Leadtime * -1),
                     MasterScheduleID = masterSchedule.MasterScheduleID,
                     TypeID = (int)ObjectType.MasterSchedule,
-                    PartID = masterSchedule.PartID
+                    PartID = masterSchedule.PartID,
+                    Quantity = 1
                 };
 
                 scheduledObjects.Add(scheduledObject);
@@ -76,7 +79,7 @@ namespace min_scheduling.MRP_Engine
             foreach (int partID in partIDOrder)
             {
                 Demand[] partDemands = demandsDictionary.ContainsKey(partID) ?
-                    demandsDictionary[partID].OrderBy(d => d.ScheduledObject.DueDate).ToArray() :
+                    demandsDictionary[partID].OrderBy(d => d.ScheduledObject.StartDate).ToArray() :
                     null;
 
                 Supply[] partSupplies = suppliesDictionary.ContainsKey(partID) ?
@@ -154,13 +157,20 @@ namespace min_scheduling.MRP_Engine
 
         public Supply CreatePlannedOrder(int quantity, int partID, List<ScheduledObject> scheduledObjects)
         {
+            int? currentSequence = scheduledObjects
+                .Where(s => s.PartID == partID)
+                .Where(s => s.TypeID == (int)ObjectType.PlannedOrder)
+                .Max(s => s.Sequence);
+
             var scheduledObject = new ScheduledObject
             {
                 DueDate = DateTime.Today,
                 StartDate = DateTime.Today,
                 SupplyID = null,
                 TypeID = (int)ObjectType.PlannedOrder,
-                PartID = partID
+                PartID = partID,
+                Quantity = quantity,
+                Sequence = currentSequence != null ? currentSequence + 1: 0
             };
 
             scheduledObjects.Add(scheduledObject);

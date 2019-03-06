@@ -41,7 +41,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="run in runs">
+                            <tr ng-repeat="run in runs| orderBy: run.RunID: true">
                                 <td>
                                     {{run.RunID}}
                                 </td>

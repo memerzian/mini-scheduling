@@ -12,6 +12,8 @@ namespace mini_scheduling.Models
         public DateTime? DueDate { get; set; }
         public int PartID { get; set; }
         public int Hashcode { get; set; }
+        public int Quantity { get; set; }
+        public int? Sequence { get; set; }
 
         public ScheduledObject()
         {

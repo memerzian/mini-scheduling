@@ -12,7 +12,12 @@ namespace mini_scheduling.Models
         public int PartID { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime DueDate { get; set; }
+        public int Quantity { get; set; }
+        public int? Sequence { get; set; }
 
         public ObjectTypeEntity Type { get; set; }
+        public SupplyEntity Supply { get; set; }
+        public MasterScheduleEntity MasterSchedule { get; set; }
+        public PartEntity Part { get; set; }
     }
 }
