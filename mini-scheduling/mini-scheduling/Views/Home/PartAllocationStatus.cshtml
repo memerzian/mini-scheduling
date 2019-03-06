@@ -4,16 +4,25 @@
 
 <div ng-controller="AllocationController" id="container">
     <div class="row mb-5">
-        <div class="col-3">
+        <div class="input-group col-4">
+            <div class="input-group-prepend">
+                <label class="input-group-text"> Part</label>
+            </div>
             <select class="custom-select" ng-options="part.Name for part in parts | orderBy: part.Name" ng-model="selectedPart"></select>
         </div>
+        <div class="input-group col-4">
+            <div class="input-group-prepend">
+                <label class="input-group-text"> RunID</label>
+            </div>
+            <select class="custom-select" ng-options="run.RunID for run in runs | orderBy: run.RunID: true" ng-model="selectedRun"></select>
+        </div>
         <div class="col-2">
-            <button class="btn btn-info" ng-click="loadBom(selectedPart.PartID)">Load Status</button>
+            <button class="btn btn-info" ng-click="loadStatus(selectedPart.PartID, selectedRun.RunID)">Load Status</button>
         </div>
     </div>
 
     <div class="container border rounded">
-        <div class="row mb-3 mt-2 ml-2">
+        <div class="row mb-3 mt-3 ml-2">
             <div class="col-3 border rounded">
                 <h6 class="display-4"> {{ allocationStatus.PartNumber }} </h6>
             </div>
@@ -67,31 +76,50 @@
             <tbody>
                 <tr ng-repeat="alloc in allocationStatus.Details">
                     <td>
-                        {{ alloc.ParentObjectName }}
+                        <div ng-show="!alloc.DemandOrderRepeat">
+                            {{ alloc.ParentObjectName }}
+                        </div>
                     </td>
                     <td>
-                        {{ alloc.ParentPartNumber }}
+                        <div ng-show="!alloc.DemandOrderRepeat">
+                            {{ alloc.ParentPartNumber }}
+                        </div>
                     </td>
                     <td>
-                        {{ alloc.ParentDueDate | date:'yyyy-MM-dd' }}
+                        <div ng-show="!alloc.DemandOrderRepeat">
+                            {{ alloc.ParentDueDate | date:'MM-dd-yyyy' }}
+                        </div>
                     </td>
                     <td>
-                        {{ alloc.ParentStartDate | date:'yyyy-MM-dd' }}
+                        <div ng-show="!alloc.DemandOrderRepeat">
+                            {{ alloc.ParentStartDate | date:'MM-dd-yyyy' }}
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span>
+                            <i class="fa fa-arrow-left"></i>
+                            <strong> {{ alloc.AllocationQuantity }} </strong>
+                        </span>
                     </td>
                     <td>
-                        {{ alloc.AllocationQuantity }}
+                        <div ng-show="!alloc.SupplyOrderRepeat">
+                            {{ alloc.ObjectName }}
+                        </div>
                     </td>
                     <td>
-                        {{ alloc.ObjectName }}
+                        <div ng-show="!alloc.SupplyOrderRepeat">
+                            {{ alloc.SupplyQuantity }}
+                        </div>
                     </td>
                     <td>
-                        {{ alloc.SupplyQuantity }}
+                        <div ng-show="!alloc.SupplyOrderRepeat">
+                            {{ alloc.DueDate | date:'MM-dd-yyyy' }}
+                        </div>
                     </td>
                     <td>
-                        {{ alloc.DueDate | date:'yyyy-MM-dd' }}
-                    </td>
-                    <td>
-                        {{ alloc.StartDate | date:'yyyy-MM-dd' }}
+                        <div ng-show="!alloc.SupplyOrderRepeat">
+                            {{ alloc.StartDate | date:'MM-dd-yyyy' }}
+                        </div>
                     </td>
                 </tr>
             </tbody>

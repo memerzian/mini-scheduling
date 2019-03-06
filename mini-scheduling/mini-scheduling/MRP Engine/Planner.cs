@@ -101,7 +101,7 @@ namespace min_scheduling.MRP_Engine
                         }
 
                         // Only allocate what you can given this demand and supply combination
-                        int quantityAllocated = Math.Min(quantityNeeded, availableSupply.Quantity);
+                        int quantityAllocated = Math.Min(quantityNeeded, availableSupply.Quantity - availableSupply.QuantityAllocated);
 
                         // Create allocation
                         var allocation = new Allocation(partDemand, availableSupply, quantityAllocated);
@@ -124,7 +124,7 @@ namespace min_scheduling.MRP_Engine
                         {
                             BillOfMaterialsRequirementEntity[] requirements = dataLoad.BomRequirements.Where(b => b.Bom.PartID == availableSupply.PartID).ToArray();
 
-                            foreach(var requirement in requirements)
+                            foreach(BillOfMaterialsRequirementEntity requirement in requirements)
                             {
                                 var demandObject = new Demand()
                                 {
@@ -164,13 +164,11 @@ namespace min_scheduling.MRP_Engine
 
             var scheduledObject = new ScheduledObject
             {
-                DueDate = DateTime.Today,
-                StartDate = DateTime.Today,
                 SupplyID = null,
                 TypeID = (int)ObjectType.PlannedOrder,
                 PartID = partID,
                 Quantity = quantity,
-                Sequence = currentSequence != null ? currentSequence + 1: 0
+                Sequence = currentSequence != null ? currentSequence + 1: 1
             };
 
             scheduledObjects.Add(scheduledObject);

@@ -1,10 +1,7 @@
-﻿using min_scheduling.Models.Enums;
-using min_scheduling.MRP_Engine;
-using mini_scheduling.DAL;
+﻿using mini_scheduling.DAL;
 using mini_scheduling.Models;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Http.Description;
 
 namespace mini_scheduling.Controllers
 {
@@ -23,18 +20,34 @@ namespace mini_scheduling.Controllers
                    ParentDueDate = a.ParentScheduledObject.DueDate,
                    ParentStartDate = a.ParentScheduledObject.StartDate,
                    ParentPartNumber = a.ParentScheduledObject.Part.Name,
-                   ParentObjectName = a.ParentScheduledObject.Type.Name + a.ParentScheduledObject.Supply.SupplyID,
+                   ParentObjectName = a.ParentScheduledObject.Type.Name + " " + a.ParentScheduledObject.SupplyID + a.ParentScheduledObject.Sequence + a.ParentScheduledObject.MasterScheduleID,
 
                    AllocationQuantity = a.Quantity,
 
                    DueDate = a.ChildScheduledObject.DueDate,
                    StartDate = a.ChildScheduledObject.StartDate,
-                   ObjectName = a.ChildScheduledObject.Type.Name + a.ChildScheduledObject.SupplyID,
+                   ObjectName = a.ChildScheduledObject.Type.Name + " " + a.ChildScheduledObject.SupplyID + a.ChildScheduledObject.Sequence + a.ChildScheduledObject.MasterScheduleID,
                    SupplyQuantity = a.ChildScheduledObject.Quantity
                })
                .ToArray();
 
             var part = db.Parts.Find(partID);
+
+            for (int i =1; i < allocations.Length; i++)
+            {
+                var allocation = allocations[i];
+                var previousAllocation = allocations[i - 1];
+
+                if (allocation.ObjectName == previousAllocation.ObjectName)
+                {
+                    allocation.SupplyOrderRepeat = true;
+                }
+
+                if (allocation.ParentObjectName == previousAllocation.ParentObjectName && allocation.ParentPartNumber == previousAllocation.ParentPartNumber)
+                {
+                    allocation.DemandOrderRepeat = true;
+                }
+            }
 
             var status = new PartAllocationStatus()
             {

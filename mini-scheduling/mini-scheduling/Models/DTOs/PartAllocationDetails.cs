@@ -12,6 +12,7 @@ namespace mini_scheduling.Models
         public DateTime ParentDueDate { get; set; }
         public DateTime ParentStartDate { get; set; }
         public int RequirementQuantity { get; set; }
+        public bool DemandOrderRepeat { get; set; }
 
         // Allocation
         public int AllocationQuantity { get; set; }
@@ -22,6 +23,7 @@ namespace mini_scheduling.Models
         public DateTime DueDate { get; set; }
         public DateTime StartDate { get; set; }
         public int SupplyQuantity { get; set; }
+        public bool SupplyOrderRepeat { get; set; }
         
     }
 }
