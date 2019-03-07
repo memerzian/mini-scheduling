@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -24,9 +25,9 @@
     </div>
     <div class="container mt-3">
         <div class="pb-2 mt-4 mb-2 border-bottom">
-            <h2>@ViewBag.Title</h2>
+            <h3>@ViewBag.Title</h3>
         </div>
-        <div class="mt-3">
+        <div class="mt-3" ng-app="SchedulingApp">
             @RenderBody()
         </div>
     </div>
@@ -38,6 +39,8 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/angular.js")
+    @Scripts.Render("~/Scripts/lodash.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>

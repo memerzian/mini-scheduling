@@ -239,12 +239,45 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\BOMViewController.cs" />
+    <Compile Include="Controllers\AllocationController.cs" />
+    <Compile Include="Controllers\SummaryController.cs" />
     <Compile Include="Controllers\MasterScheduleController.cs" />
+    <Compile Include="Models\Constants\SortOrder.cs" />
     <Compile Include="Models\DAL\SchedulingContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\MasterScheduleEntity.cs" />
+    <Compile Include="Models\DTOs\PartAllocationDetails.cs" />
+    <Compile Include="Models\DTOs\PartAllocationStatus.cs" />
+    <Compile Include="Models\DTOs\RunDetailItem.cs" />
+    <Compile Include="Models\DTOs\RunDetail.cs" />
+    <Compile Include="Models\DTOs\BOMObject.cs" />
+    <Compile Include="Models\DTOs\MRPEngine\MRPResult.cs" />
+    <Compile Include="Models\DTOs\MRPEngine\BomRelationship.cs" />
+    <Compile Include="Models\DTOs\MRPEngine\Allocation.cs" />
+    <Compile Include="Models\DTOs\MRPEngine\Supply.cs" />
+    <Compile Include="Models\DTOs\MRPEngine\Demand.cs" />
+    <Compile Include="Models\DTOs\MRPEngine\ScheduledObject.cs" />
+    <Compile Include="Models\DTOs\MRPEngine\DataLoad.cs" />
+    <Compile Include="Models\Entities\ObjectTypeEntity.cs" />
+    <Compile Include="Models\Entities\WorkOrderRequirementEntity.cs" />
+    <Compile Include="Models\Entities\PartEntity.cs" />
+    <Compile Include="Models\Entities\BillOfMaterialsEntity.cs" />
+    <Compile Include="Models\Entities\AllocationEntity.cs" />
+    <Compile Include="Models\Entities\BillOfMaterialsRequirementEntity.cs" />
+    <Compile Include="Models\Entities\SupplyEntity.cs" />
+    <Compile Include="Models\Entities\ScheduledObjectEntity.cs" />
+    <Compile Include="Models\Enums\ObjectType.cs" />
+    <Compile Include="Models\Enums\Status.cs" />
+    <Compile Include="Models\Entities\RunEntity.cs" />
+    <Compile Include="Models\Entities\MasterScheduleEntity.cs" />
+    <Compile Include="MRP Engine\DataCommitter.cs" />
+    <Compile Include="MRP Engine\Planner.cs" />
+    <Compile Include="MRP Engine\DependencyAnalyzer.cs" />
+    <Compile Include="MRP Engine\MRPDataService.cs" />
+    <Compile Include="MRP Engine\DataLoader.cs" />
+    <Compile Include="MRP Engine\MRPEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +320,8 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\core.js" />
+    <Content Include="Scripts\core.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -1066,6 +1101,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\lodash.js" />
+    <Content Include="Scripts\lodash.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
@@ -1076,8 +1113,10 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Views\Allocation\allocation-controller.js" />
+    <Content Include="Views\Bom\bom-controller.js" />
     <Content Include="Views\Progress\progress-controller.js" />
-    <Content Include="Views\Summary\RunSummary.html" />
+    <Content Include="Views\Summary\summary-controller.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1107,7 +1146,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\app\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -2,6 +2,131 @@
     ViewBag.Title = "Part Allocation Status";
 }
 
-<div>
-    Insert part allocation status here
+<div ng-controller="AllocationController" id="container">
+    <div class="row mb-5">
+        <div class="input-group col-4">
+            <div class="input-group-prepend">
+                <label class="input-group-text"> Part</label>
+            </div>
+            <select class="custom-select" ng-options="part.Name for part in parts | orderBy: part.Name" ng-model="selectedPart"></select>
+        </div>
+        <div class="input-group col-4">
+            <div class="input-group-prepend">
+                <label class="input-group-text"> RunID</label>
+            </div>
+            <select class="custom-select" ng-options="run.RunID for run in runs | orderBy: run.RunID: true" ng-model="selectedRun"></select>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-info" ng-click="loadStatus(selectedPart.PartID, selectedRun.RunID)">Load Status</button>
+        </div>
+    </div>
+
+    <div class="container border rounded">
+        <div class="row mb-3 mt-3 ml-2">
+            <div class="col-3 border rounded">
+                <h6 class="display-4"> {{ allocationStatus.PartNumber }} </h6>
+            </div>
+            <div class="col-9">
+                <div>
+                    Leadtime: {{ allocationStatus.Leadtime }}
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td colspan="4" class="text-center bg-success text-light rounded-top">
+                        <strong>Demand</strong>
+                    </td>
+                    <td colspan="1" class="text-center bg-light"> </td>
+                    <td colspan="4" class="text-center bg-primary text-light rounded-top">
+                        <strong>Supply</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="col">
+                        Name
+                    </th>
+                    <th scope="col">
+                        Part
+                    </th>
+                    <th scope="col">
+                        Due Date
+                    </th>
+                    <th scope="col">
+                        Start Date
+                    </th>
+                    <th>
+                        Allocation Qty
+                    </th>
+                    <th scope="col">
+                        Name
+                    </th>
+                    <th scope="col">
+                        Quantity
+                    </th>
+                    <th scope="col">
+                        Due Date
+                    </th>
+                    <th scope="col">
+                        Start Date
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="alloc in allocationStatus.Details">
+                    <td>
+                        <div ng-show="!alloc.DemandOrderRepeat">
+                            {{ alloc.ParentObjectName }}
+                        </div>
+                    </td>
+                    <td>
+                        <div ng-show="!alloc.DemandOrderRepeat">
+                            {{ alloc.ParentPartNumber }}
+                        </div>
+                    </td>
+                    <td>
+                        <div ng-show="!alloc.DemandOrderRepeat">
+                            {{ alloc.ParentDueDate | date:'MM-dd-yyyy' }}
+                        </div>
+                    </td>
+                    <td>
+                        <div ng-show="!alloc.DemandOrderRepeat">
+                            {{ alloc.ParentStartDate | date:'MM-dd-yyyy' }}
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span>
+                            <i class="fa fa-arrow-left"></i>
+                            <strong> {{ alloc.AllocationQuantity }} </strong>
+                        </span>
+                    </td>
+                    <td>
+                        <div ng-show="!alloc.SupplyOrderRepeat">
+                            {{ alloc.ObjectName }}
+                        </div>
+                    </td>
+                    <td>
+                        <div ng-show="!alloc.SupplyOrderRepeat">
+                            {{ alloc.SupplyQuantity }}
+                        </div>
+                    </td>
+                    <td>
+                        <div ng-show="!alloc.SupplyOrderRepeat">
+                            {{ alloc.DueDate | date:'MM-dd-yyyy' }}
+                        </div>
+                    </td>
+                    <td>
+                        <div ng-show="!alloc.SupplyOrderRepeat">
+                            {{ alloc.StartDate | date:'MM-dd-yyyy' }}
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+@section scripts {
+    @Scripts.Render("~/Views/Allocation/allocation-controller.js")
+}

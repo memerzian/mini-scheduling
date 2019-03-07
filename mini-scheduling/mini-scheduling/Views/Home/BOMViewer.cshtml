@@ -3,11 +3,19 @@
 }
 
 
-<div class="card">
-    <div class="card-header">
-        Test
-    </div>
-    <div class="card-body">
-        See if the css is really working here
+<!-- load the d3.js library -->
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<div ng-controller="BomController" id="container">
+    <div class="row mb-5">
+        <div class="col-3">
+            <select class="custom-select" ng-options="part.Name for part in parts | orderBy: part.Name" ng-model="selectedPart"></select>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-info" ng-click="loadBom(selectedPart.PartID)">Load BOM</button>
+        </div>
     </div>
 </div>
+
+@section scripts {
+    @Scripts.Render("~/Views/Bom/bom-controller.js")
+}
