@@ -248,6 +248,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DTOs\Run.cs" />
     <Compile Include="Models\DTOs\PartAllocationDetails.cs" />
     <Compile Include="Models\DTOs\PartAllocationStatus.cs" />
     <Compile Include="Models\DTOs\RunDetailItem.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="Models\DTOs\MRPEngine\ScheduledObject.cs" />
     <Compile Include="Models\DTOs\MRPEngine\DataLoad.cs" />
     <Compile Include="Models\Entities\ObjectTypeEntity.cs" />
+    <Compile Include="Models\Entities\RunStatusEntity.cs" />
     <Compile Include="Models\Entities\WorkOrderRequirementEntity.cs" />
     <Compile Include="Models\Entities\PartEntity.cs" />
     <Compile Include="Models\Entities\BillOfMaterialsEntity.cs" />

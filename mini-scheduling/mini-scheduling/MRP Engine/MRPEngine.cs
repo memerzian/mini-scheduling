@@ -36,8 +36,6 @@ namespace min_scheduling.MRP_Engine
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-
                 // Mark run as failed if there is an error
                 dataService.UpdateRun(runID, Status.Failed);
             }
