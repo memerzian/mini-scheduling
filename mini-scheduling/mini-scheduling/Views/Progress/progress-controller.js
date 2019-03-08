@@ -28,6 +28,18 @@
         };
 
         $scope.saveMasterSchedules = function (masterSchedules) {
-            $http.put("/api/SaveMasterSchedules", JSON.stringify(masterSchedules));
+            $http.put("/api/SaveMasterSchedules", JSON.stringify(masterSchedules)).then(function () {
+                // Show toast
+                $('.toast').toast('show');
+
+                // Wait 2 seconds before reloading the page
+                $timeout(function () {
+                    reload();
+                }, 2000);
+            })
+        }
+
+        reload = function () {
+            $window.location.reload();
         }
     });
