@@ -20,6 +20,7 @@ namespace mini_scheduling.DAL
         public DbSet<BillOfMaterialsRequirementEntity> BillOfMaterialsRequirements { get; set; }
         public DbSet<WorkOrderRequirementEntity> WorkOrderRequirements { get; set; }
         public DbSet<AllocationEntity> Allocations { get; set; }
+        public DbSet<RunStatusEntity> RunStatuses { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -31,7 +32,8 @@ namespace mini_scheduling.DAL
 
             modelBuilder.Entity<RunEntity>()
                 .ToTable("Run")
-                .HasKey(r => r.RunID);
+                .HasKey(r => r.RunID)
+                .HasRequired(r => r.Status).WithMany().HasForeignKey(r => r.StatusID);
 
             modelBuilder.Entity<PartEntity>()
                 .ToTable("Part")
@@ -79,6 +81,10 @@ namespace mini_scheduling.DAL
             modelBuilder.Entity<ObjectTypeEntity>()
                 .ToTable("ObjectType")
                 .HasKey(o => o.TypeID);
+
+            modelBuilder.Entity<RunStatusEntity>()
+               .ToTable("RunStatus")
+               .HasKey(r => r.StatusID);
         }
     }
 }

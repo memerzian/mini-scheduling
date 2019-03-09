@@ -14,7 +14,7 @@
             <div class="input-group-prepend">
                 <label class="input-group-text"> RunID</label>
             </div>
-            <select class="custom-select" ng-options="run.RunID for run in runs | orderBy: run.RunID: true" ng-model="selectedRun"></select>
+            <select class="custom-select" ng-options="run.RunID for run in runs" ng-model="selectedRun"></select>
         </div>
         <div class="col-2">
             <button class="btn btn-info" ng-click="loadStatus(selectedPart.PartID, selectedRun.RunID)">Load Status</button>

@@ -4,7 +4,6 @@ using mini_scheduling.DAL;
 using mini_scheduling.Models;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Http.Description;
 
 namespace mini_scheduling.Controllers
 {
@@ -22,9 +21,18 @@ namespace mini_scheduling.Controllers
         }
 
         [Route("api/GetRuns")]
-        public IQueryable<RunEntity> GetRuns()
+        public Run[] GetRuns()
         {
-            return db.Runs.Where(r => r.StatusID != (int)Status.Failed);
+            return db.Runs
+                .OrderByDescending(r => r.RunID)
+                .Select(r => new Run
+                {
+                    RunID = r.RunID,
+                    StartDate = r.StartDate,
+                    EndDate = r.EndDate,
+                    Status = r.Status.Name
+                })
+                .ToArray();
         }
 
         [Route("api/GetRunInfo/{runID}")]
@@ -48,7 +56,6 @@ namespace mini_scheduling.Controllers
 
             return detail;
         }
-
 
         protected override void Dispose(bool disposing)
         {

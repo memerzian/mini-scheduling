@@ -1,0 +1,246 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema scheduling
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema scheduling
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `scheduling` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `scheduling` ;
+
+-- -----------------------------------------------------
+-- Table `scheduling`.`allocation`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `scheduling`.`allocation` ;
+
+CREATE TABLE IF NOT EXISTS `scheduling`.`allocation` (
+  `AllocationID` INT(11) NOT NULL AUTO_INCREMENT,
+  `RunID` INT(11) NOT NULL,
+  `ChildScheduledObjectID` INT(11) NOT NULL,
+  `ParentScheduledObjectID` INT(11) NOT NULL,
+  `Quantity` INT(11) NOT NULL,
+  `BillOfMaterialsRequirementID` INT(11) NULL DEFAULT NULL,
+  `WorkOrderRequirementID` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`AllocationID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1916
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `scheduling`.`part`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `scheduling`.`part` ;
+
+CREATE TABLE IF NOT EXISTS `scheduling`.`part` (
+  `PartID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(45) NOT NULL,
+  `Leadtime` VARCHAR(45) NOT NULL,
+  `BillOfMaterialsID` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`PartID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 12
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `scheduling`.`billofmaterials`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `scheduling`.`billofmaterials` ;
+
+CREATE TABLE IF NOT EXISTS `scheduling`.`billofmaterials` (
+  `BillOfMaterialsID` INT(11) NOT NULL AUTO_INCREMENT,
+  `PartID` INT(11) NOT NULL,
+  PRIMARY KEY (`BillOfMaterialsID`),
+  INDEX `fk_billofmaterials_part` (`PartID` ASC) VISIBLE,
+  CONSTRAINT `fk_billofmaterials_part`
+    FOREIGN KEY (`PartID`)
+    REFERENCES `scheduling`.`part` (`PartID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 12
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `scheduling`.`billofmaterialsrequirement`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `scheduling`.`billofmaterialsrequirement` ;
+
+CREATE TABLE IF NOT EXISTS `scheduling`.`billofmaterialsrequirement` (
+  `BillOfMaterialsRequirementID` INT(11) NOT NULL AUTO_INCREMENT,
+  `BillOfMaterialsID` INT(11) NOT NULL,
+  `Quantity` INT(11) NOT NULL,
+  `RequiredPartID` INT(11) NOT NULL,
+  PRIMARY KEY (`BillOfMaterialsRequirementID`),
+  INDEX `fk_billofmaterialsrequirement_part` (`RequiredPartID` ASC) VISIBLE,
+  INDEX `fk_billofmaterialsrequirement_bom` (`BillOfMaterialsID` ASC) VISIBLE,
+  CONSTRAINT `fk_billofmaterialsrequirement_bom`
+    FOREIGN KEY (`BillOfMaterialsID`)
+    REFERENCES `scheduling`.`billofmaterials` (`BillOfMaterialsID`),
+  CONSTRAINT `fk_billofmaterialsrequirement_part`
+    FOREIGN KEY (`RequiredPartID`)
+    REFERENCES `scheduling`.`part` (`PartID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 11
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `scheduling`.`masterschedule`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `scheduling`.`masterschedule` ;
+
+CREATE TABLE IF NOT EXISTS `scheduling`.`masterschedule` (
+  `MasterScheduleID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(45) NOT NULL,
+  `Date` DATETIME NOT NULL,
+  `PartID` INT(11) NOT NULL,
+  PRIMARY KEY (`MasterScheduleID`),
+  INDEX `fk_masterschedule_part` (`PartID` ASC) VISIBLE,
+  CONSTRAINT `fk_masterschedule_part`
+    FOREIGN KEY (`PartID`)
+    REFERENCES `scheduling`.`part` (`PartID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 7
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `scheduling`.`objecttype`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `scheduling`.`objecttype` ;
+
+CREATE TABLE IF NOT EXISTS `scheduling`.`objecttype` (
+  `TypeID` INT(11) NOT NULL,
+  `Name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`TypeID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `scheduling`.`runstatus`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `scheduling`.`runstatus` ;
+
+CREATE TABLE IF NOT EXISTS `scheduling`.`runstatus` (
+  `StatusID` INT(11) NOT NULL,
+  `Name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`StatusID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `scheduling`.`run`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `scheduling`.`run` ;
+
+CREATE TABLE IF NOT EXISTS `scheduling`.`run` (
+  `RunID` INT(11) NOT NULL AUTO_INCREMENT,
+  `StartDate` DATETIME NOT NULL,
+  `EndDate` DATETIME NOT NULL,
+  `StatusID` INT(11) NOT NULL,
+  PRIMARY KEY (`RunID`),
+  INDEX `fk_run_status` (`StatusID` ASC) VISIBLE,
+  CONSTRAINT `fk_run_status`
+    FOREIGN KEY (`StatusID`)
+    REFERENCES `scheduling`.`runstatus` (`StatusID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 64
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `scheduling`.`scheduledobject`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `scheduling`.`scheduledobject` ;
+
+CREATE TABLE IF NOT EXISTS `scheduling`.`scheduledobject` (
+  `ScheduledObjectID` INT(11) NOT NULL AUTO_INCREMENT,
+  `RunID` INT(11) NOT NULL,
+  `SupplyID` INT(11) NULL DEFAULT NULL,
+  `MasterScheduleID` INT(11) NULL DEFAULT NULL,
+  `StartDate` DATETIME NOT NULL,
+  `DueDate` DATETIME NOT NULL,
+  `PartID` INT(11) NOT NULL,
+  `TypeID` INT(11) NOT NULL,
+  `Quantity` INT(11) NOT NULL,
+  `Sequence` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`ScheduledObjectID`),
+  INDEX `fk_scheduledobject_type` (`TypeID` ASC) VISIBLE,
+  CONSTRAINT `fk_scheduledobject_type`
+    FOREIGN KEY (`TypeID`)
+    REFERENCES `scheduling`.`objecttype` (`TypeID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 2044
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `scheduling`.`supply`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `scheduling`.`supply` ;
+
+CREATE TABLE IF NOT EXISTS `scheduling`.`supply` (
+  `SupplyID` INT(11) NOT NULL AUTO_INCREMENT,
+  `TypeID` INT(11) NOT NULL,
+  `PartID` INT(11) NOT NULL,
+  `Quantity` INT(11) NOT NULL,
+  PRIMARY KEY (`SupplyID`),
+  INDEX `fk_part` (`PartID` ASC) VISIBLE,
+  CONSTRAINT `fk_part`
+    FOREIGN KEY (`PartID`)
+    REFERENCES `scheduling`.`part` (`PartID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `scheduling`.`workorderrequirement`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `scheduling`.`workorderrequirement` ;
+
+CREATE TABLE IF NOT EXISTS `scheduling`.`workorderrequirement` (
+  `WorkOrderRequirementID` INT(11) NOT NULL,
+  `SupplyID` INT(11) NOT NULL,
+  `OpenRequirement` INT(11) NOT NULL,
+  `Quantity` INT(11) NOT NULL,
+  `PartID` INT(11) NOT NULL,
+  PRIMARY KEY (`WorkOrderRequirementID`),
+  INDEX `fk_workorderrequirement_part` (`PartID` ASC) VISIBLE,
+  INDEX `fk_workorderrequirement_supply` (`SupplyID` ASC) VISIBLE,
+  CONSTRAINT `fk_workorderrequirement_part`
+    FOREIGN KEY (`PartID`)
+    REFERENCES `scheduling`.`part` (`PartID`),
+  CONSTRAINT `fk_workorderrequirement_supply`
+    FOREIGN KEY (`SupplyID`)
+    REFERENCES `scheduling`.`supply` (`SupplyID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

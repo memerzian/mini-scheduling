@@ -2,64 +2,77 @@
     ViewBag.Title = "Progress View";
 }
 
-<div class="row" ng-controller="ProgressController">
-    <div class="col-8">
-        <div class="card">
-            <div class="card-header">
-                Master Schedules
+<div ng-controller="ProgressController">
+    <div class="position-absolute" style="left:75%; z-index:999">
+        <div class="toast" role="alert" data-delay="2000" data-autohide="true">
+            <div class="toast-header bg-success">
+                Master Schedule
             </div>
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">
-                                ID
-                            </th>
-                            <th scope="col">
-                                Name
-                            </th>
-                            <th scope="col">
-                                Part
-                            </th>
-                            <th scope="col">
-                                Date
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="ms in masterSchedules">
-                            <td>
-                                {{ ms.MasterScheduleID }}
-                            </td>
-                            <td>
-                                <input class="form-control" ng-model="ms.Name">
-                            </td>
-                            <td>
-                                <select class="custom-select" ng-options="part.PartID as part.Name for part in parts" ng-model="ms.PartID"></select>
-                            </td>
-                            <td>
-                                <input type="date" value="{{ms.Date}}" ng-model="ms.Date">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="card-footer bg-transparent">
-                <button class="btn btn-primary float-left" ng-click="addMasterSchedule()">
-                    <span class="fa fa-plus-circle">
-                    </span>
-                </button>
-                <button class="btn btn-success float-right" ng-click="saveMasterSchedules(masterSchedules)"> Save</button>
+            <div class="toast-body">
+                Saved Successfully
             </div>
         </div>
     </div>
-    <div class="col-4">
-        <div class="card">
-            <div class="card-header">
-                Progress
+
+    <div class="row container">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    Master Schedules
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    ID
+                                </th>
+                                <th scope="col">
+                                    Name
+                                </th>
+                                <th scope="col">
+                                    Part
+                                </th>
+                                <th scope="col">
+                                    Date
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="ms in masterSchedules">
+                                <td>
+                                    {{ ms.MasterScheduleID }}
+                                </td>
+                                <td>
+                                    <input class="form-control" ng-model="ms.Name">
+                                </td>
+                                <td>
+                                    <select class="custom-select" ng-options="part.PartID as part.Name for part in parts" ng-model="ms.PartID"></select>
+                                </td>
+                                <td>
+                                    <input type="date" value="{{ms.Date}}" ng-model="ms.Date">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <button class="btn btn-primary float-left" ng-click="addMasterSchedule()">
+                        <span class="fa fa-plus-circle">
+                        </span>
+                    </button>
+                    <button class="btn btn-success float-right" ng-click="saveMasterSchedules(masterSchedules)"> Save</button>
+                </div>
             </div>
-            <div class="card-body">
-                Add % complete by dollar here (horizontal bar chart?)
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    Progress
+                </div>
+                <div class="card-body">
+                    Add % complete by dollar here (horizontal bar chart?)
+                </div>
             </div>
         </div>
     </div>
