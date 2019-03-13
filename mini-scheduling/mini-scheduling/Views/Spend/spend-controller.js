@@ -5,18 +5,8 @@
 
         $scope.partDictionary;
 
-        $scope.labels;
-        $scope.data;
-        // https://www.color-hex.com/color-palette/74824
-        $scope.colors = ['#7fe5b9', '#bde592', '#ffba50', '#ff9535', '#fc6060'];
-
-        $scope.options = {
-            legend:
-            {
-                display: true,
-                position: 'right'
-            }
-        };
+        $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+        $scope.data = [300, 500, 100];
 
         $http.get("/api/GetAllParts").then(function (response) {
             $scope.parts = response.data;
@@ -41,11 +31,10 @@
         };
 
         $scope.loadDetails = function (masterScheduleID) {
-            $http.get("/api/MasterScheduleProgress/" + masterScheduleID).then(function (response) {
-                $scope.progressData = response.data;
+            $http.get("/api/MasterScheduleProgress").then(function (response) {
+                $scope.masterSchedules = response.data;
 
-                $scope.labels = Object.keys($scope.progressData.CostItems);
-                $scope.data = Object.values($scope.progressData.CostItems);
+             
             });
         }
 
@@ -59,5 +48,9 @@
                     reload();
                 }, 2000);
             })
+        }
+
+        reload = function () {
+            $window.location.reload();
         }
     });

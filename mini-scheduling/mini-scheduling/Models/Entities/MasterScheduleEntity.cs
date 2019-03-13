@@ -8,5 +8,7 @@ namespace mini_scheduling.Models
         public string Name { get; set; }
         public DateTime Date { get; set; }
         public int PartID { get; set; }
+
+        public PartEntity Part { get; set; }
     }
 }

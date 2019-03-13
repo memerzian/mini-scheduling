@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace mini_scheduling.Models
+﻿namespace mini_scheduling.Models
 {
     public class PartEntity
     {
@@ -8,5 +6,6 @@ namespace mini_scheduling.Models
         public string Name { get; set; }
         public int Leadtime { get; set; }
         public int? BillOfMaterialsID { get; set; }
+        public int ThisLevelUnitCost { get; set; }
     }
 }

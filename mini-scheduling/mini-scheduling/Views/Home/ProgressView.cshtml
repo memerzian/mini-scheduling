@@ -36,6 +36,9 @@
                                 <th scope="col">
                                     Date
                                 </th>
+                                <th>
+
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,6 +54,12 @@
                                 </td>
                                 <td>
                                     <input type="date" value="{{ms.Date}}" ng-model="ms.Date">
+                                </td>
+                                <td>
+                                <td>
+                                    <span ng-click="loadDetails(ms.MasterScheduleID)">
+                                        <i class="fa fa-bar-chart text-secondary"></i>
+                                    </span>
                                 </td>
                             </tr>
                         </tbody>
@@ -71,7 +80,9 @@
                     Progress
                 </div>
                 <div class="card-body">
-                    Add % complete by dollar here (horizontal bar chart?)
+                    <canvas id="doughnut" class="chart chart-doughnut"
+                            chart-data="data" chart-labels="labels" chart-options="options" chart-colors="colors">
+                    </canvas>
                 </div>
             </div>
         </div>

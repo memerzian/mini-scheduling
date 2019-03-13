@@ -248,6 +248,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DTOs\BOMCostItem.cs" />
+    <Compile Include="Models\DTOs\BOMCost.cs" />
     <Compile Include="Models\DTOs\Run.cs" />
     <Compile Include="Models\DTOs\PartAllocationDetails.cs" />
     <Compile Include="Models\DTOs\PartAllocationStatus.cs" />
@@ -296,6 +298,8 @@
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
     <Content Include="Scripts\angular-aria.min.js" />
+    <Content Include="Scripts\angular-chart.js" />
+    <Content Include="Scripts\angular-chart.min.js" />
     <Content Include="Scripts\angular-cookies.js" />
     <Content Include="Scripts\angular-cookies.min.js" />
     <Content Include="Scripts\angular-csp.css" />
@@ -322,6 +326,8 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\core.js" />
     <Content Include="Scripts\core.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
@@ -1120,6 +1126,7 @@
     <Content Include="Views\Allocation\allocation-controller.js" />
     <Content Include="Views\Bom\bom-controller.js" />
     <Content Include="Views\Progress\progress-controller.js" />
+    <Content Include="Views\Spend\spend-controller.js" />
     <Content Include="Views\Summary\summary-controller.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
