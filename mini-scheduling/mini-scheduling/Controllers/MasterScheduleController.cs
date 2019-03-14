@@ -74,7 +74,7 @@ namespace mini_scheduling.Controllers
               .Select(m => m.Part.PartID)
               .FirstOrDefault();
 
-            int totalPartCost = AddChildrenPartCost(partID, parentPartCost);
+            int totalPartCost = parentPartCost + AddChildrenPartCost(partID, 1);
             AddChildrenCost(scheduledObjectID, bomCost, runID);
 
             // Assume $ complete is the total part cost - everything currently pegging to the item
@@ -83,9 +83,11 @@ namespace mini_scheduling.Controllers
             return Ok(bomCost);
         }
 
-        public int AddChildrenPartCost(int partID, int partCost)
+        public int AddChildrenPartCost(int partID, int multiplier)
         {
             var part = db.Parts.Where(p => p.PartID == partID).First();
+
+            int cost = 0;
 
             if (part.BillOfMaterialsID != null)
             {
@@ -102,11 +104,13 @@ namespace mini_scheduling.Controllers
 
                 foreach (var child in children)
                 {
-                    partCost += (child.Cost * child.Quantity) + AddChildrenPartCost(child.PartID, partCost);
+                    // The multiplier carries down quantity multiples through the tree
+                    cost += (child.Cost * child.Quantity * multiplier);
+                    cost += AddChildrenPartCost(child.PartID, multiplier * child.Quantity);
                 }
             }
 
-            return partCost;
+            return cost;
         }
 
         private void AddChildrenCost(int scheduledObjectID, BOMCost bomCost, int runID)
@@ -126,7 +130,7 @@ namespace mini_scheduling.Controllers
 
             foreach(var child in children)
             {
-                bomCost.CostItems[child.ObjectType] += child.Cost * child.Quantity;
+                bomCost.CostItems[child.ObjectType] += (child.Cost * child.Quantity);
                 AddChildrenCost(child.ScheduledObjectID, bomCost, runID);
             }
 
