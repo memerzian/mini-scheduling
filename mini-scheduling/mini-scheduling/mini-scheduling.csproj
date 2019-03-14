@@ -241,6 +241,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\BOMViewController.cs" />
     <Compile Include="Controllers\AllocationController.cs" />
+    <Compile Include="Controllers\SpendController.cs" />
     <Compile Include="Controllers\SummaryController.cs" />
     <Compile Include="Controllers\MasterScheduleController.cs" />
     <Compile Include="Models\Constants\SortOrder.cs" />
@@ -248,6 +249,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DTOs\SpendForecast.cs" />
     <Compile Include="Models\DTOs\BOMCostItem.cs" />
     <Compile Include="Models\DTOs\BOMCost.cs" />
     <Compile Include="Models\DTOs\Run.cs" />
@@ -1154,6 +1156,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Home\BOMViewer.cshtml" />
+    <Content Include="Views\Home\SpendForecast.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
