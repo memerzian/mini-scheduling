@@ -15,22 +15,21 @@ namespace mini_scheduling.Controllers
 
         public ActionResult ProgressView()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
         public ActionResult PartAllocationStatus()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
 
         public ActionResult BOMViewer()
         {
-            ViewBag.Message = "Your contact page.";
+            return View();
+        }
 
+        public ActionResult SpendForecast()
+        {
             return View();
         }
     }

@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Spend Forecast";
+}
+
+<div ng-controller="SpendController" id="container">
+    <div class="row mb-5">
+        <div class="input-group col-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text"> RunID</label>
+            </div>
+            <select class="custom-select" ng-options="run.RunID for run in runs" ng-model="selectedRun"></select>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-info" ng-click="loadForecast(selectedRun.RunID)">Load Forecast</button>
+        </div>
+    </div>
+    <div>
+        <canvas id="line" class="chart chart-line" chart-data="data"
+                chart-labels="labels" chart-series="series" chart-options="options"
+                chart-dataset-override="datasetOverride" chart-colors="colors"></canvas>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Views/Spend/spend-controller.js")
+}

@@ -21,6 +21,7 @@ namespace mini_scheduling.DAL
         public DbSet<WorkOrderRequirementEntity> WorkOrderRequirements { get; set; }
         public DbSet<AllocationEntity> Allocations { get; set; }
         public DbSet<RunStatusEntity> RunStatuses { get; set; }
+        public DbSet<ObjectTypeEntity> ObjectTypes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -28,7 +29,8 @@ namespace mini_scheduling.DAL
 
             modelBuilder.Entity<MasterScheduleEntity>()
                 .ToTable("MasterSchedule")
-                .HasKey(m => m.MasterScheduleID);
+                .HasKey(m => m.MasterScheduleID)
+                .HasRequired(m => m.Part).WithMany().HasForeignKey(m => m.PartID);
 
             modelBuilder.Entity<RunEntity>()
                 .ToTable("Run")

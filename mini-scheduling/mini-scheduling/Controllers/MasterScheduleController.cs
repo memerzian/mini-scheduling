@@ -1,5 +1,8 @@
-﻿using mini_scheduling.DAL;
+﻿using min_scheduling.Models.Enums;
+using mini_scheduling.DAL;
 using mini_scheduling.Models;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -27,6 +30,111 @@ namespace mini_scheduling.Controllers
             }
 
             return Ok(masterSchedule);
+        }
+
+        [Route("api/MasterScheduleProgress/{masterScheduleID}")]
+        public IHttpActionResult GetMasterScheduleProgress(int masterScheduleID)
+        {
+            var bomCost = new BOMCost
+            {
+                MasterScheduleID = masterScheduleID,
+                CostItems = new Dictionary<string, int>()
+            };
+
+            int runID = db.Runs
+                .Where(r => r.StatusID == (int)Status.Completed)
+                .Select(r => r.RunID)
+                .FirstOrDefault();
+
+            int scheduledObjectID = db.ScheduledObjects
+                .Where(s => s.MasterScheduleID == masterScheduleID)
+                .Where(s => s.RunID == runID)
+                .Select(s => s.ScheduledObjectID)
+                .FirstOrDefault();
+
+            var objectTypes = db.ObjectTypes
+                .Where(o => o.Name != "Master Schedule")
+                .Select(o => o.Name)
+                .ToArray();
+
+            bomCost.CostItems.Add("Complete", 0);
+
+            foreach (string type in objectTypes)
+            {
+                bomCost.CostItems.Add(type, 0);
+            }
+
+            int parentPartCost = db.MasterSchedules
+                .Where(m => m.MasterScheduleID == masterScheduleID)
+                .Select(m => m.Part.ThisLevelUnitCost)
+                .FirstOrDefault();
+
+            int partID = db.MasterSchedules
+              .Where(m => m.MasterScheduleID == masterScheduleID)
+              .Select(m => m.Part.PartID)
+              .FirstOrDefault();
+
+            int totalPartCost = parentPartCost + AddChildrenPartCost(partID, 1);
+            AddChildrenCost(scheduledObjectID, bomCost, runID);
+
+            // Assume $ complete is the total part cost - everything currently pegging to the item
+            bomCost.CostItems["Complete"] = totalPartCost - bomCost.CostItems.Values.Sum();
+
+            return Ok(bomCost);
+        }
+
+        public int AddChildrenPartCost(int partID, int multiplier)
+        {
+            var part = db.Parts.Where(p => p.PartID == partID).First();
+
+            int cost = 0;
+
+            if (part.BillOfMaterialsID != null)
+            {
+                int bomID = (int)part.BillOfMaterialsID;
+
+                var children = db.BillOfMaterialsRequirements.Where(b => b.BillOfMaterialsID == bomID)
+                    .Select(x => new
+                    {
+                        PartID = x.RequiredPartID,
+                        Quantity = x.Quantity,
+                        Cost = x.Part.ThisLevelUnitCost
+                    })
+                    .ToList();
+
+                foreach (var child in children)
+                {
+                    // The multiplier carries down quantity multiples through the tree
+                    cost += (child.Cost * child.Quantity * multiplier);
+                    cost += AddChildrenPartCost(child.PartID, multiplier * child.Quantity);
+                }
+            }
+
+            return cost;
+        }
+
+        private void AddChildrenCost(int scheduledObjectID, BOMCost bomCost, int runID)
+        {
+            // Find direct children
+            var children = db.Allocations
+                .Where(a => a.RunID == runID)
+                .Where(a => a.ParentScheduledObjectID == scheduledObjectID)
+                .Select(a => new
+                {
+                    ScheduledObjectID = a.ChildScheduledObject.ScheduledObjectID,
+                    Quantity = a.Quantity,
+                    Cost = a.ChildScheduledObject.Part.ThisLevelUnitCost,
+                    ObjectType = a.ChildScheduledObject.Type.Name
+                })
+                .ToArray();
+
+            foreach(var child in children)
+            {
+                bomCost.CostItems[child.ObjectType] += (child.Cost * child.Quantity);
+                AddChildrenCost(child.ScheduledObjectID, bomCost, runID);
+            }
+
+            return;
         }
 
         [Route("api/SaveMasterSchedules")]

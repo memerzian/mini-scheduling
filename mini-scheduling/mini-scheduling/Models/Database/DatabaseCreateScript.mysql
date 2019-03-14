@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS `scheduling`.`allocation` (
   `WorkOrderRequirementID` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`AllocationID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 1916
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -47,9 +46,9 @@ CREATE TABLE IF NOT EXISTS `scheduling`.`part` (
   `Name` VARCHAR(45) NOT NULL,
   `Leadtime` VARCHAR(45) NOT NULL,
   `BillOfMaterialsID` INT(11) NULL DEFAULT NULL,
+  `ThisLevelUnitCost` INT(11) NOT NULL,
   PRIMARY KEY (`PartID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -68,7 +67,6 @@ CREATE TABLE IF NOT EXISTS `scheduling`.`billofmaterials` (
     FOREIGN KEY (`PartID`)
     REFERENCES `scheduling`.`part` (`PartID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -93,7 +91,6 @@ CREATE TABLE IF NOT EXISTS `scheduling`.`billofmaterialsrequirement` (
     FOREIGN KEY (`RequiredPartID`)
     REFERENCES `scheduling`.`part` (`PartID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 11
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -114,7 +111,6 @@ CREATE TABLE IF NOT EXISTS `scheduling`.`masterschedule` (
     FOREIGN KEY (`PartID`)
     REFERENCES `scheduling`.`part` (`PartID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -163,7 +159,6 @@ CREATE TABLE IF NOT EXISTS `scheduling`.`run` (
     FOREIGN KEY (`StatusID`)
     REFERENCES `scheduling`.`runstatus` (`StatusID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 64
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -190,7 +185,6 @@ CREATE TABLE IF NOT EXISTS `scheduling`.`scheduledobject` (
     FOREIGN KEY (`TypeID`)
     REFERENCES `scheduling`.`objecttype` (`TypeID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2044
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -211,7 +205,6 @@ CREATE TABLE IF NOT EXISTS `scheduling`.`supply` (
     FOREIGN KEY (`PartID`)
     REFERENCES `scheduling`.`part` (`PartID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
