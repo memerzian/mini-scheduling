@@ -34,7 +34,7 @@ namespace mini_scheduling.Controllers
                     Month = g.Key.Month,
                     Year = g.Key.Year,
                     Type = g.Key.Type,
-                    Cost = g.Sum(so => so.Part.ThisLevelUnitCost)
+                    Cost = g.Sum(so => so.Part.ThisLevelUnitCost * so.Quantity)
                 })
                 .ToArray();
 

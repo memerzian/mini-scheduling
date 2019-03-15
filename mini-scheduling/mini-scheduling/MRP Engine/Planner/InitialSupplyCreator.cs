@@ -1,16 +1,13 @@
-﻿using min_scheduling.Models.Enums;
-using mini_scheduling.Models;
-using System;
+﻿using mini_scheduling.Models;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace min_scheduling.MRP_Engine
 {
-    public class SupplyCreator
+    public class InitialSupplyCreator
     {
-        public SupplyCreation CreateSupply(SupplyEntity[] supplies)
+        public SupplyCreation CreateInitialSupply(SupplyEntity[] supplies)
         {
-            var createdSupply = new SupplyCreation()
+            var initialSupply = new SupplyCreation()
             {
                 SuppliesDictionary = new Dictionary<int, List<Supply>>(),
                 SupplyScheduledObjects = new List<ScheduledObject>()
@@ -26,7 +23,7 @@ namespace min_scheduling.MRP_Engine
                     Quantity = supply.Quantity
                 };
 
-                createdSupply.SupplyScheduledObjects.Add(scheduledObject);
+                initialSupply.SupplyScheduledObjects.Add(scheduledObject);
 
                 var supplyObject = new Supply()
                 {
@@ -37,15 +34,15 @@ namespace min_scheduling.MRP_Engine
                     SortOrder = SortOrder.sortDictionary[supply.TypeID]
                 };
 
-                if (!createdSupply.SuppliesDictionary.ContainsKey(supply.PartID))
+                if (!initialSupply.SuppliesDictionary.ContainsKey(supply.PartID))
                 {
-                    createdSupply.SuppliesDictionary.Add(supply.PartID, new List<Supply>() { });
+                    initialSupply.SuppliesDictionary.Add(supply.PartID, new List<Supply>() { });
                 }
 
-                createdSupply.SuppliesDictionary[supply.PartID].Add(supplyObject);
+                initialSupply.SuppliesDictionary[supply.PartID].Add(supplyObject);
             }
 
-            return createdSupply;
+            return initialSupply;
         }
     }
 }

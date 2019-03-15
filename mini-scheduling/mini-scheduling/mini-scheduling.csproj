@@ -287,6 +287,7 @@
     <Compile Include="MRP Engine\DataLoader.cs" />
     <Compile Include="MRP Engine\MRPEngine.cs" />
     <Compile Include="MRP Engine\Planner\InitialDemandCreator.cs" />
+    <Compile Include="MRP Engine\Planner\ChildDemandCreator.cs" />
     <Compile Include="MRP Engine\Planner\PlannedOrderCreator.cs" />
     <Compile Include="MRP Engine\Planner\InitialSupplyCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -13,21 +13,22 @@ namespace min_scheduling.MRP_Engine
             var scheduledObjects = new List<ScheduledObject>();
             
             // Create a scheduled object and supply/demand objects for every supply/master schedule
-            var supplyCreator = new SupplyCreator();
-            SupplyCreation supply = supplyCreator.CreateSupply(dataLoad.Supplies);
+            var supplyCreator = new InitialSupplyCreator();
+            SupplyCreation supply = supplyCreator.CreateInitialSupply(dataLoad.Supplies);
 
             scheduledObjects.AddRange(supply.SupplyScheduledObjects);
-            var suppliesDictionary = supply.SuppliesDictionary;
+            Dictionary<int, List<Supply>> suppliesDictionary = supply.SuppliesDictionary;
 
             var demandCreator = new InitialDemandCreator();
             InitialDemands demands = demandCreator.CreateInitialDemand(dataLoad.MasterSchedules);
 
             scheduledObjects.AddRange(demands.DemandScheduledObjects);
-            var demandsDictionary = demands.DemandsDictionary;
+            Dictionary<int, List<Demand>> demandsDictionary = demands.DemandsDictionary;
 
             // Allocate supply to demand for each part
             var allocations = new List<Allocation>();
             var plannedOrderCreator = new PlannedOrderCreator();
+            var childDemandCreator = new ChildDemandCreator();
 
             foreach (int partID in partIDOrder)
             {
@@ -60,7 +61,7 @@ namespace min_scheduling.MRP_Engine
                         var allocation = new Allocation(partDemand, availableSupply, quantityAllocated);
                         allocations.Add(allocation);
 
-                        // Update all quantities
+                        // Update allocated quantities
                         availableSupply.QuantityAllocated += quantityAllocated;
                         partDemand.QuantityAllocatedTo += quantityAllocated;
 
@@ -72,28 +73,12 @@ namespace min_scheduling.MRP_Engine
                         availableSupply.ScheduledObject.StartDate = ((DateTime)availableSupply.ScheduledObject.DueDate)
                             .AddDays(dataLoad.PartDictionary[availableSupply.PartID].Leadtime * -1);
 
-                        // Create demands for children of supply if planned order of work order
-                        if (availableSupply.ScheduledObject.TypeID == (int)ObjectType.PlannedOrder)
+                        // Create demands for children of supply if supply is a planned order of work order
+                        if (availableSupply.ScheduledObject.TypeID == (int)ObjectType.PlannedOrder ||
+                            availableSupply.ScheduledObject.TypeID == (int)ObjectType.WorkOrder)
                         {
-                            BillOfMaterialsRequirementEntity[] requirements = dataLoad.BomRequirements.Where(b => b.Bom.PartID == availableSupply.PartID).ToArray();
-
-                            foreach(BillOfMaterialsRequirementEntity requirement in requirements)
-                            {
-                                var demandObject = new Demand()
-                                {
-                                    PartID = requirement.RequiredPartID,
-                                    Quantity = quantityAllocated * requirement.Quantity,
-                                    QuantityAllocatedTo = 0,
-                                    ScheduledObject = availableSupply.ScheduledObject
-                                };
-
-                                if (!demandsDictionary.ContainsKey(requirement.RequiredPartID))
-                                {
-                                    demandsDictionary.Add(requirement.RequiredPartID, new List<Demand>() { });
-                                }
-
-                                demandsDictionary[requirement.RequiredPartID].Add(demandObject);
-                            }
+                            childDemandCreator.CreateChildDemand(dataLoad.BomRequirements, dataLoad.WorkOrderRequirements
+                                , availableSupply, quantityAllocated, demandsDictionary);
                         }
                     }
                 }

@@ -54,8 +54,15 @@ UNLOCK TABLES;
 
 LOCK TABLES `supply` WRITE;
 /*!40000 ALTER TABLE `supply` DISABLE KEYS */;
-INSERT INTO `supply` VALUES (1,1,6,4),(2,2,6,25),(3,1,10,4),(4,1,5,1), (5,1,4,1);
+INSERT INTO `supply` VALUES (1,1,6,4),(2,2,6,25),(3,1,10,4),(4,1,5,1), (5,1,4,1), (6,3,4,2);
 /*!40000 ALTER TABLE `supply` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+LOCK TABLES `workorderrequirement` WRITE;
+/*!40000 ALTER TABLE `workorderrequirement` DISABLE KEYS */;
+INSERT INTO `workorderrequirement` VALUES (1,6,1,10,6),(2,6,0,1,5);
+/*!40000 ALTER TABLE `workorderrequirement` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
