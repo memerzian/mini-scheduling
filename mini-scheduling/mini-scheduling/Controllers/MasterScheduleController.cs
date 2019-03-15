@@ -42,6 +42,7 @@ namespace mini_scheduling.Controllers
             };
 
             int runID = db.Runs
+                .OrderByDescending(r => r.RunID)
                 .Where(r => r.StatusID == (int)Status.Completed)
                 .Select(r => r.RunID)
                 .FirstOrDefault();

@@ -6,10 +6,11 @@ This is a basic application that runs a simple mrp algorithm and displays the da
 This is a thought experiment for a potential manufacturing scheduling mini service
 
 ## How to use
-Tab 1) Run MRP and see details (a count of supply/demand items) of past runs
-Tab 2) Add/update master schedules
-Tab 3) View mrp allocations for a given part/runs
-Tab 4) View bills of material for a part
+1) Run MRP and see details (a count of supply/demand items) of past runs
+2) Add/update master schedules
+3) View mrp allocations for a given part/runs
+4) View bills of material for a part
+5) View spend forecast
 
 ## How to run this application
 1) Use mySQL
@@ -30,11 +31,11 @@ Tab 4) View bills of material for a part
 | Cost			 		| 			      	| 								|
 
 ## Next steps
-- Add % complete chart to Progress view
 - Find a good way to pass secrets into web.config file
 - MRP II capabilities
-- Add unit tests
-- Support work orders in mrp engine
-- Optimize MRP engine
+- Add more unit tests
+- Add graph navigator
+- Add gantt chart
+- Add screen to see all planned orders and give a way to convert to WOs or POs
 
 

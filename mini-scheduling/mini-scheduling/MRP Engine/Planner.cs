@@ -11,71 +11,25 @@ namespace min_scheduling.MRP_Engine
         public MRPResult Plan(DataLoad dataLoad, List<int> partIDOrder)
         {
             var scheduledObjects = new List<ScheduledObject>();
-            var suppliesDictionary = new Dictionary<int, List<Supply>>();
-            var demandsDictionary = new Dictionary<int, List<Demand>>();
-            var allocations = new List<Allocation>();
-
+            
             // Create a scheduled object and supply/demand objects for every supply/master schedule
-            foreach(SupplyEntity supply in dataLoad.Supplies)
-            {
-                var scheduledObject = new ScheduledObject
-                {
-                    SupplyID = supply.SupplyID,
-                    TypeID = supply.TypeID,
-                    PartID = supply.PartID,
-                    Quantity = supply.Quantity
-                };
+            var supplyCreator = new InitialSupplyCreator();
+            SupplyCreation supply = supplyCreator.CreateInitialSupply(dataLoad.Supplies);
 
-                scheduledObjects.Add(scheduledObject);
+            scheduledObjects.AddRange(supply.SupplyScheduledObjects);
+            Dictionary<int, List<Supply>> suppliesDictionary = supply.SuppliesDictionary;
 
-                var supplyObject = new Supply()
-                {
-                    PartID = supply.PartID,
-                    Quantity = supply.Quantity,
-                    QuantityAllocated = 0,
-                    ScheduledObject = scheduledObject,
-                    SortOrder = SortOrder.sortDictionary[supply.TypeID]
-                };
+            var demandCreator = new InitialDemandCreator();
+            InitialDemands demands = demandCreator.CreateInitialDemand(dataLoad.MasterSchedules);
 
-                if (!suppliesDictionary.ContainsKey(supply.PartID))
-                {
-                    suppliesDictionary.Add(supply.PartID, new List<Supply>(){ });
-                }
+            scheduledObjects.AddRange(demands.DemandScheduledObjects);
+            Dictionary<int, List<Demand>> demandsDictionary = demands.DemandsDictionary;
 
-                suppliesDictionary[supply.PartID].Add(supplyObject);
-            }
+            // Allocate supply to demand for each part
+            var allocations = new List<Allocation>();
+            var plannedOrderCreator = new PlannedOrderCreator();
+            var childDemandCreator = new ChildDemandCreator();
 
-            foreach (MasterScheduleEntity masterSchedule in dataLoad.MasterSchedules)
-            {
-                var scheduledObject = new ScheduledObject
-                {
-                    DueDate = masterSchedule.Date,
-                    StartDate = masterSchedule.Date.AddDays(dataLoad.PartDictionary[masterSchedule.PartID].Leadtime * -1),
-                    MasterScheduleID = masterSchedule.MasterScheduleID,
-                    TypeID = (int)ObjectType.MasterSchedule,
-                    PartID = masterSchedule.PartID,
-                    Quantity = 1
-                };
-
-                scheduledObjects.Add(scheduledObject);
-
-                var demandObject = new Demand()
-                {
-                    PartID = masterSchedule.PartID,
-                    Quantity = 1,
-                    QuantityAllocatedTo = 0,
-                    ScheduledObject = scheduledObject
-                };
-
-                if (!demandsDictionary.ContainsKey(masterSchedule.PartID))
-                {
-                    demandsDictionary.Add(masterSchedule.PartID, new List<Demand>() { });
-                }
-
-                demandsDictionary[masterSchedule.PartID].Add(demandObject);
-            }
-
-            // Start the allocations and planned order creations
             foreach (int partID in partIDOrder)
             {
                 Demand[] partDemands = demandsDictionary.ContainsKey(partID) ?
@@ -94,10 +48,10 @@ namespace min_scheduling.MRP_Engine
 
                         int quantityNeeded = partDemand.Quantity - partDemand.QuantityAllocatedTo;
 
-                        // If there is no existing supply, need to create a planned order to fill in the gaps
+                        // If there is no existing supply, need to create a planned order to fill in the gap
                         if (availableSupply == null)
                         {
-                            availableSupply = CreatePlannedOrder(quantityNeeded, partID, scheduledObjects);
+                            availableSupply = plannedOrderCreator.CreatePlannedOrder(quantityNeeded, partID, scheduledObjects);
                         }
 
                         // Only allocate what you can given this demand and supply combination
@@ -107,11 +61,11 @@ namespace min_scheduling.MRP_Engine
                         var allocation = new Allocation(partDemand, availableSupply, quantityAllocated);
                         allocations.Add(allocation);
 
-                        // Update all quantities
+                        // Update allocated quantities
                         availableSupply.QuantityAllocated += quantityAllocated;
                         partDemand.QuantityAllocatedTo += quantityAllocated;
 
-                        // Adjust date of scheduledobject
+                        // Adjust date of scheduledobject if it is earlier than a previous due date for the scheduled object
                         availableSupply.ScheduledObject.DueDate = availableSupply.ScheduledObject.DueDate < partDemand.ScheduledObject.StartDate
                             ? availableSupply.ScheduledObject.DueDate :
                             partDemand.ScheduledObject.StartDate;
@@ -119,28 +73,12 @@ namespace min_scheduling.MRP_Engine
                         availableSupply.ScheduledObject.StartDate = ((DateTime)availableSupply.ScheduledObject.DueDate)
                             .AddDays(dataLoad.PartDictionary[availableSupply.PartID].Leadtime * -1);
 
-                        // Create demands for children of supply
-                        if (availableSupply.ScheduledObject.TypeID == (int)ObjectType.PlannedOrder)
+                        // Create demands for children of supply if supply is a planned order of work order
+                        if (availableSupply.ScheduledObject.TypeID == (int)ObjectType.PlannedOrder ||
+                            availableSupply.ScheduledObject.TypeID == (int)ObjectType.WorkOrder)
                         {
-                            BillOfMaterialsRequirementEntity[] requirements = dataLoad.BomRequirements.Where(b => b.Bom.PartID == availableSupply.PartID).ToArray();
-
-                            foreach(BillOfMaterialsRequirementEntity requirement in requirements)
-                            {
-                                var demandObject = new Demand()
-                                {
-                                    PartID = requirement.RequiredPartID,
-                                    Quantity = quantityAllocated * requirement.Quantity,
-                                    QuantityAllocatedTo = 0,
-                                    ScheduledObject = availableSupply.ScheduledObject
-                                };
-
-                                if (!demandsDictionary.ContainsKey(requirement.RequiredPartID))
-                                {
-                                    demandsDictionary.Add(requirement.RequiredPartID, new List<Demand>() { });
-                                }
-
-                                demandsDictionary[requirement.RequiredPartID].Add(demandObject);
-                            }
+                            childDemandCreator.CreateChildDemand(dataLoad.BomRequirements, dataLoad.WorkOrderRequirements
+                                , availableSupply, quantityAllocated, demandsDictionary);
                         }
                     }
                 }
@@ -153,36 +91,6 @@ namespace min_scheduling.MRP_Engine
             };
 
             return mrpResults;
-        }
-
-        public Supply CreatePlannedOrder(int quantity, int partID, List<ScheduledObject> scheduledObjects)
-        {
-            int? currentSequence = scheduledObjects
-                .Where(s => s.PartID == partID)
-                .Where(s => s.TypeID == (int)ObjectType.PlannedOrder)
-                .Max(s => s.Sequence);
-
-            var scheduledObject = new ScheduledObject
-            {
-                SupplyID = null,
-                TypeID = (int)ObjectType.PlannedOrder,
-                PartID = partID,
-                Quantity = quantity,
-                Sequence = currentSequence != null ? currentSequence + 1: 1
-            };
-
-            scheduledObjects.Add(scheduledObject);
-
-            var supplyObject = new Supply()
-            {
-                PartID = partID,
-                Quantity = quantity,
-                QuantityAllocated = 0,
-                ScheduledObject = scheduledObject,
-                SortOrder = SortOrder.sortDictionary[scheduledObject.TypeID]
-            };
-
-            return supplyObject;
         }
     }
 }
