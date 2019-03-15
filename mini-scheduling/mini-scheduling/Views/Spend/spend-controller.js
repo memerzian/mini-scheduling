@@ -7,6 +7,7 @@
         $scope.series = ['Purchase Orders', 'Work Orders', 'Planned Orders'];
         $scope.data;
 
+        https://www.color-hex.com/color-palette/807
         $scope.colors = ['#fdf498', '#f37736', '#0392cf'];
 
         $scope.purchaseOrderData;
